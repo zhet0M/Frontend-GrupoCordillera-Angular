@@ -1,4 +1,4 @@
-.sales-panel {
+.finances-panel {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -31,9 +31,9 @@
   gap: 12px;
 }
 
-.sales-summary {
+.finances-summary {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -50,7 +50,6 @@
 
 .summary-card strong {
   font-size: 1.7rem;
-  color: #eef5ff;
 }
 
 .summary-card small {
@@ -64,9 +63,17 @@
   padding: 8px 14px;
   border: 1px solid rgba(40, 212, 188, 0.24);
   background: rgba(8, 18, 34, 0.76);
-  color: #7cf0db;
   font-size: 0.84rem;
 }
+
+.label-ingreso { color: #2ecc71; border-color: rgba(46, 204, 113, 0.3); }
+.label-costo { color: #e74c3c; border-color: rgba(231, 76, 60, 0.3); }
+.label-margen { color: #3498db; border-color: rgba(52, 152, 219, 0.3); }
+
+.text-ingreso { color: #2ecc71; }
+.text-costo { color: #e74c3c; }
+.text-margen { color: #3498db; }
+.text-neutral { color: #95a5a6; }
 
 .search-bar {
   display: flex;
@@ -128,7 +135,7 @@
   color: #fff;
 }
 
-.sale-form {
+.finance-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -190,7 +197,7 @@
   border-top: 1px solid rgba(146, 166, 193, 0.1);
 }
 
-.sales-card {
+.finances-card {
   background: rgba(7, 15, 28, 0.6);
   border: 1px solid rgba(146, 166, 193, 0.15);
   border-radius: 20px;
@@ -203,14 +210,14 @@
   color: #92a6c1;
 }
 
-.sales-table {
+.finances-table {
   display: flex;
   flex-direction: column;
 }
 
-.sale-row {
+.transaction-row {
   display: grid;
-  grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr auto;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr 1fr;
   align-items: center;
   gap: 16px;
   padding: 16px 24px;
@@ -218,49 +225,62 @@
   transition: background 150ms ease;
 }
 
-.sale-row:last-child {
+.transaction-row:last-child {
   border-bottom: none;
 }
 
-.sale-row:hover {
+.transaction-row:hover {
   background: rgba(146, 166, 193, 0.05);
 }
 
-.sale-main {
+.transaction-main,
+.transaction-meta,
+.transaction-details,
+.transaction-margin,
+.transaction-date {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.sale-meta,
-.client-info,
-.sale-finance {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: center;
-  text-align: center;
-}
-
-.sale-main strong {
+.transaction-main strong {
   color: #eef5ff;
   font-size: 1rem;
 }
 
-.sale-main small,
-.sale-meta small,
-.client-info small,
-.sale-finance small {
+.transaction-main small,
+.transaction-meta small,
+.transaction-date small {
   color: #92a6c1;
   font-size: 0.8rem;
 }
 
-.client-info span {
+.transaction-date span {
   color: #d7e2ef;
   font-size: 0.9rem;
 }
 
-.channel-badge {
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  max-width: 140px;
+}
+
+.detail-item small {
+  color: #92a6c1;
+}
+
+.detail-item span {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.transaction-margin strong {
+  font-size: 1.1rem;
+}
+
+.type-badge {
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 0.75rem;
@@ -268,52 +288,22 @@
   width: fit-content;
 }
 
-.canal-pos {
-  background: rgba(52, 152, 219, 0.15);
-  color: #3498db;
-  border: 1px solid rgba(52, 152, 219, 0.3);
-}
-
-.canal-web {
-  background: rgba(155, 89, 182, 0.15);
-  color: #9b59b6;
-  border: 1px solid rgba(155, 89, 182, 0.3);
-}
-
-.status-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  width: fit-content;
-}
-
-.status-ok {
+.type-ingreso {
   background: rgba(46, 204, 113, 0.15);
   color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.3);
 }
 
-.status-warning {
-  background: rgba(241, 196, 15, 0.15);
-  color: #f1c40f;
-}
-
-.status-error {
+.type-egreso {
   background: rgba(231, 76, 60, 0.15);
   color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.3);
 }
 
-.sale-price {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-}
-
-.sale-price strong {
-  color: #eef5ff;
-  font-size: 1.1rem;
+.type-ajuste {
+  background: rgba(241, 196, 15, 0.15);
+  color: #f1c40f;
+  border: 1px solid rgba(241, 196, 15, 0.3);
 }
 
 .button {
@@ -355,12 +345,12 @@
 }
 
 @media (max-width: 900px) {
-  .sale-row {
+  .transaction-row {
     grid-template-columns: 1fr;
     gap: 12px;
   }
-
-  .sale-price {
-    justify-content: flex-start;
+  
+  .finances-summary {
+    grid-template-columns: 1fr;
   }
 }

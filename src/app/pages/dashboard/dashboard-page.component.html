@@ -3,13 +3,20 @@
   <div class="dashboard-glow glow-right" aria-hidden="true"></div>
 
   <header class="dashboard-header">
-    <div>
-      <a class="brand-link" href="/">Grupo Cordillera</a>
-      <span class="eyebrow">Dashboard interno</span>
-      <h1>Bienvenido, {{ currentSession.username }}</h1>
-      <p>
-        Tu panel adapta las pestañas visibles segun el rol asignado por el backend.
-      </p>
+    <div class="header-main">
+      <div>
+        <a class="brand-link" href="/">Grupo Cordillera</a>
+        <span class="eyebrow">Dashboard interno</span>
+        <h1>Bienvenido, {{ currentSession.username }}</h1>
+        <p>
+          Tu panel adapta las pestañas visibles segun el rol asignado por el backend.
+        </p>
+      </div>
+
+      <button class="mobile-menu-btn" (click)="toggleMobileMenu()" aria-label="Alternar menú">
+        <svg *ngIf="!isMobileMenuOpen()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        <svg *ngIf="isMobileMenuOpen()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
     </div>
 
     <div class="header-actions">
@@ -45,7 +52,9 @@
   </section>
 
   <section class="tabs-shell">
-    <nav class="tabs-nav" aria-label="Modulos del dashboard">
+    <div class="mobile-overlay" [class.overlay-open]="isMobileMenuOpen()" (click)="toggleMobileMenu()"></div>
+
+    <nav class="tabs-nav" [class.tabs-nav-open]="isMobileMenuOpen()" aria-label="Modulos del dashboard">
       <button
         *ngFor="let tab of visibleTabs()"
         class="tab-button"
@@ -79,8 +88,9 @@
       <app-inventory-panel *ngIf="tab.id === 'inventario'" />
       <app-sales-panel *ngIf="tab.id === 'ventas'" />
       <app-clients-panel *ngIf="tab.id === 'clientes'" />
+      <app-finances-panel *ngIf="tab.id === 'finanzas'" />
 
-      <section class="detail-grid" *ngIf="tab.id !== 'usuarios' && tab.id !== 'inventario' && tab.id !== 'ventas' && tab.id !== 'clientes'">
+      <section class="detail-grid" *ngIf="tab.id !== 'usuarios' && tab.id !== 'inventario' && tab.id !== 'ventas' && tab.id !== 'clientes' && tab.id !== 'finanzas'">
         <article class="detail-card">
           <span class="detail-label">Resumen</span>
           <strong>{{ tab.summary }}</strong>

@@ -1,0 +1,173 @@
+<section class="finances-panel">
+  <div class="panel-header">
+    <div>
+      <span class="section-kicker">Módulo de Tesorería</span>
+      <h3>Gestión de Finanzas</h3>
+    </div>
+    
+    <div class="header-actions">
+      <button 
+        *ngIf="hasWriteAccess()" 
+        class="button button-primary" 
+        (click)="openNewTransactionForm()"
+      >
+        + Registrar Movimiento
+      </button>
+      <button 
+        class="button button-secondary" 
+        (click)="loadData()" 
+        [disabled]="isLoading()"
+      >
+        {{ isLoading() ? 'Actualizando...' : 'Actualizar' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="finances-summary">
+    <article class="summary-card">
+      <span class="summary-label label-ingreso">Ingresos Totales</span>
+      <strong class="text-ingreso">${{ summary().ingresos | number:'1.0-0' }}</strong>
+      <small>Monto bruto percibido.</small>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label label-costo">Costos Operativos</span>
+      <strong class="text-costo">${{ summary().costo | number:'1.0-0' }}</strong>
+      <small>Gastos directos asociados.</small>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label label-margen">Margen Neto</span>
+      <strong class="text-margen">${{ summary().margen | number:'1.0-0' }}</strong>
+      <small>Utilidad final calculada.</small>
+    </article>
+  </div>
+
+  <p class="feedback feedback-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+  <p class="feedback feedback-success" *ngIf="successMessage()">{{ successMessage() }}</p>
+
+  <div class="search-bar" *ngIf="!showForm()">
+    <input 
+      type="text" 
+      placeholder="Buscar por SKU, producto, sucursal o tipo..." 
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
+    />
+  </div>
+
+  <!-- Formulario de Nuevo Movimiento -->
+  <article class="form-card" *ngIf="showForm()">
+    <div class="form-header">
+      <h4>Registrar Movimiento Manual</h4>
+      <button class="close-btn" (click)="closeForm()" type="button">&times;</button>
+    </div>
+
+    <form [formGroup]="transactionForm" (ngSubmit)="submitForm()" class="finance-form">
+      <div class="form-grid">
+        <label class="field">
+          <span>Sucursal *</span>
+          <input type="text" formControlName="sucursal" placeholder="Ej. SUC-CENTRAL" />
+        </label>
+        
+        <label class="field">
+          <span>SKU del Producto *</span>
+          <input type="text" formControlName="skuProducto" placeholder="Ej. TEC-001" />
+        </label>
+
+        <label class="field">
+          <span>Nombre del Producto (Opcional)</span>
+          <input type="text" formControlName="nombreProducto" placeholder="Ej. Notebook" />
+        </label>
+
+        <label class="field">
+          <span>Cantidad *</span>
+          <input type="number" formControlName="cantidad" min="1" />
+        </label>
+
+        <label class="field">
+          <span>Tipo de Movimiento *</span>
+          <select formControlName="tipoMovimiento">
+            <option value="INGRESO">Ingreso (+)</option>
+            <option value="EGRESO">Egreso (-)</option>
+            <option value="AJUSTE">Ajuste (=)</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Monto Ingreso (Venta) *</span>
+          <input type="number" formControlName="ingresos" min="0" />
+        </label>
+
+        <label class="field">
+          <span>Monto Costo</span>
+          <input type="number" formControlName="costo" min="0" />
+        </label>
+
+        <label class="field">
+          <span>ID de Venta (Opcional)</span>
+          <input type="number" formControlName="ventaId" placeholder="Ej. 54" />
+        </label>
+      </div>
+
+      <div class="info-note">
+        <strong>Nota:</strong> Los movimientos manuales afectan directamente el resumen financiero y el margen. Normalmente las ventas se sincronizan automáticamente.
+      </div>
+
+      <div class="form-actions">
+        <button class="button button-secondary" type="button" (click)="closeForm()">Cancelar</button>
+        <button class="button button-primary" type="submit" [disabled]="isSubmitting() || transactionForm.invalid">
+          {{ isSubmitting() ? 'Procesando...' : 'Registrar Movimiento' }}
+        </button>
+      </div>
+    </form>
+  </article>
+
+  <!-- Tabla de Movimientos -->
+  <section class="finances-card" *ngIf="!showForm()">
+    <div class="empty-state" *ngIf="!isLoading() && !filteredTransactions().length">
+      No se encontraron movimientos financieros.
+    </div>
+
+    <div class="finances-table" *ngIf="filteredTransactions().length">
+      <article class="transaction-row" *ngFor="let t of filteredTransactions()">
+        <div class="transaction-main">
+          <strong>{{ t.nombreProducto || 'Producto ID: ' + (t.productoId || 'N/A') }}</strong>
+          <small>SKU: {{ t.skuProducto }} | Cantidad: {{ t.cantidad }}</small>
+        </div>
+
+        <div class="transaction-meta">
+          <span class="type-badge" 
+                [class.type-ingreso]="t.tipoMovimiento === 'INGRESO'" 
+                [class.type-egreso]="t.tipoMovimiento === 'EGRESO'"
+                [class.type-ajuste]="t.tipoMovimiento === 'AJUSTE'">
+            {{ t.tipoMovimiento }}
+          </span>
+          <small>{{ t.sucursal }}</small>
+        </div>
+
+        <div class="transaction-details">
+          <div class="detail-item">
+            <small>Ingreso:</small>
+            <span class="text-ingreso">+${{ t.ingresos | number:'1.0-0' }}</span>
+          </div>
+          <div class="detail-item">
+            <small>Costo:</small>
+            <span class="text-costo">-${{ t.costo | number:'1.0-0' }}</span>
+          </div>
+        </div>
+
+        <div class="transaction-margin">
+          <small>Margen</small>
+          <strong [class.text-ingreso]="t.margen > 0" [class.text-costo]="t.margen < 0" [class.text-neutral]="t.margen === 0">
+            {{ t.margen > 0 ? '+' : '' }}${{ t.margen | number:'1.0-0' }}
+          </strong>
+        </div>
+
+        <div class="transaction-date">
+          <span>{{ t.fechaRegistro }}</span>
+          <small *ngIf="t.ventaId">Venta Ref: #{{ t.ventaId }}</small>
+        </div>
+      </article>
+    </div>
+  </section>
+</section>

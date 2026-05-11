@@ -8,6 +8,7 @@ import { UsersAdminPanelComponent } from './components/users-admin-panel.compone
 import { InventoryPanelComponent } from './components/inventory-panel.component';
 import { SalesPanelComponent } from './components/sales-panel.component';
 import { ClientsPanelComponent } from './components/clients-panel.component';
+import { FinancesPanelComponent } from './components/finances-panel.component';
 
 interface DashboardTab {
   id: string;
@@ -80,7 +81,7 @@ const DASHBOARD_TABS: readonly DashboardTab[] = [
     summary: 'Centraliza informacion financiera para analisis y seguimiento.',
     metricLabel: 'Balance diario',
     metricValue: 'Disponible',
-    roles: ['SUPER_ADMIN', 'ADMIN_FINANZAS'],
+    roles: ALL_ROLES,
   },
   {
     id: 'clientes',
@@ -137,7 +138,7 @@ const ROLE_LABELS: Record<UserRole, string> = {
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [CommonModule, UsersAdminPanelComponent, InventoryPanelComponent, SalesPanelComponent, ClientsPanelComponent],
+  imports: [CommonModule, UsersAdminPanelComponent, InventoryPanelComponent, SalesPanelComponent, ClientsPanelComponent, FinancesPanelComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.css',
 })
@@ -147,6 +148,7 @@ export class DashboardPageComponent {
 
   protected readonly session = signal<UserSession | null>(this.authService.getSession());
   protected readonly activeTabId = signal('');
+  protected readonly isMobileMenuOpen = signal(false);
 
   protected readonly visibleTabs = computed(() => {
     const role = this.session()?.rol;
@@ -186,6 +188,11 @@ export class DashboardPageComponent {
 
   protected selectTab(tabId: string): void {
     this.activeTabId.set(tabId);
+    this.isMobileMenuOpen.set(false);
+  }
+
+  protected toggleMobileMenu(): void {
+    this.isMobileMenuOpen.update((open) => !open);
   }
 
   protected logout(): void {
