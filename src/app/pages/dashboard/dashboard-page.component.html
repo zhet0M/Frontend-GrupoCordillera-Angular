@@ -1,0 +1,101 @@
+<main class="dashboard-shell" *ngIf="session() as currentSession">
+  <div class="dashboard-glow glow-left" aria-hidden="true"></div>
+  <div class="dashboard-glow glow-right" aria-hidden="true"></div>
+
+  <header class="dashboard-header">
+    <div>
+      <a class="brand-link" href="/">Grupo Cordillera</a>
+      <span class="eyebrow">Dashboard interno</span>
+      <h1>Bienvenido, {{ currentSession.username }}</h1>
+      <p>
+        Tu panel adapta las pestañas visibles segun el rol asignado por el backend.
+      </p>
+    </div>
+
+    <div class="header-actions">
+      <div class="identity-card">
+        <span class="identity-label">Rol actual</span>
+        <strong>{{ displayRole() }}</strong>
+        <small>{{ currentSession.email }}</small>
+      </div>
+
+      <button class="button button-secondary" type="button" (click)="logout()">
+        Cerrar sesion
+      </button>
+    </div>
+  </header>
+
+  <section class="dashboard-overview">
+    <article class="overview-card">
+      <span class="overview-label">Pestañas habilitadas</span>
+      <strong>{{ visibleTabs().length }}</strong>
+      <small>Visibles segun permisos del rol autenticado.</small>
+    </article>
+
+    <article class="overview-card">
+      <span class="overview-label">Acceso principal</span>
+      <strong>{{ activeTab()?.label || 'Sin modulo' }}</strong>
+      <small>Se ajusta automaticamente segun tus permisos.</small>
+    </article>
+
+    <article class="overview-card">
+      <span class="overview-label">Sesion</span>
+      <strong>Activa</strong>
+      <small>Token almacenado localmente para siguientes integraciones.</small>
+    </article>
+  </section>
+
+  <section class="tabs-shell">
+    <nav class="tabs-nav" aria-label="Modulos del dashboard">
+      <button
+        *ngFor="let tab of visibleTabs()"
+        class="tab-button"
+        type="button"
+        [class.tab-button-active]="activeTab()?.id === tab.id"
+        (click)="selectTab(tab.id)"
+      >
+        <span class="tab-icon">{{ tab.icon }}</span>
+        <span class="tab-copy">
+          <strong>{{ tab.label }}</strong>
+          <small>{{ tab.metricLabel }}</small>
+        </span>
+      </button>
+    </nav>
+
+    <article class="tab-panel" *ngIf="activeTab() as tab">
+      <div class="tab-header">
+        <div>
+          <span class="eyebrow">Modulo habilitado</span>
+          <h2>{{ tab.label }}</h2>
+        </div>
+        <div class="metric-badge">
+          <span>{{ tab.metricLabel }}</span>
+          <strong>{{ tab.metricValue }}</strong>
+        </div>
+      </div>
+
+      <p class="tab-description">{{ tab.description }}</p>
+
+      <app-users-admin-panel *ngIf="tab.id === 'usuarios'; else defaultTabContent" />
+
+      <ng-template #defaultTabContent>
+        <section class="detail-grid">
+        <article class="detail-card">
+          <span class="detail-label">Resumen</span>
+          <strong>{{ tab.summary }}</strong>
+        </article>
+
+        <article class="detail-card">
+          <span class="detail-label">Siguiente etapa</span>
+          <strong>Conectar este modulo con su microservicio correspondiente.</strong>
+        </article>
+
+        <article class="detail-card">
+          <span class="detail-label">Permisos</span>
+          <strong>Visible solo para roles autorizados por el backend.</strong>
+        </article>
+        </section>
+      </ng-template>
+    </article>
+  </section>
+</main>

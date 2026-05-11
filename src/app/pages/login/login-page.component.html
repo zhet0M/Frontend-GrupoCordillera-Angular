@@ -1,0 +1,91 @@
+<main class="login-shell">
+  <div class="login-glow glow-left" aria-hidden="true"></div>
+  <div class="login-glow glow-right" aria-hidden="true"></div>
+
+  <section class="login-layout">
+    <article class="login-info">
+      <a class="brand-link" routerLink="/">Grupo Cordillera</a>
+      <span class="eyebrow">Acceso interno</span>
+      <h1>Inicia sesion con tu cuenta corporativa</h1>
+
+
+      <ul class="info-points">
+        <li>Usa tu correo corporativo aprobado por administracion.</li>
+        <li>Si no tienes cuenta, <a routerLink="/registro" class="text-link">solicita acceso aqui</a>.</li>
+      </ul>
+
+      <div class="info-card" *ngIf="!isAuthenticated()">
+        <small>Si no responde, el formulario mostrara el error de conexion.</small>
+      </div>
+
+      <div class="info-card success-card" *ngIf="session() as currentSession">
+        <span class="info-label">Sesion activa</span>
+        <strong>{{ currentSession.username }}</strong>
+        <small>{{ currentSession.email }} | {{ currentSession.rol }}</small>
+      </div>
+    </article>
+
+    <article class="login-card">
+      <div class="card-header">
+        <span class="card-kicker">Autenticacion</span>
+        <h2>Bienvenido de vuelta</h2>
+        <p>Ingresa tus credenciales para conectarte con el backend existente.</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="submit()" class="login-form" novalidate>
+        <label class="field">
+          <span>Correo corporativo</span>
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="usuario@grupocordillera.com"
+            autocomplete="email"
+          />
+          <small *ngIf="hasFieldError('email')">
+            Ingresa un correo valido.
+          </small>
+        </label>
+
+        <label class="field">
+          <span>Contrasena</span>
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Tu contrasena"
+            autocomplete="current-password"
+          />
+          <small *ngIf="hasFieldError('password')">
+            La contrasena es obligatoria.
+          </small>
+        </label>
+
+        <p class="feedback feedback-error" *ngIf="errorMessage()">
+          {{ errorMessage() }}
+        </p>
+
+        <p class="feedback feedback-success" *ngIf="successMessage()">
+          {{ successMessage() }}
+        </p>
+
+        <div class="actions">
+          <button class="button button-primary" type="submit" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Ingresando...' : 'Entrar al sistema' }}
+          </button>
+
+          <button
+            *ngIf="isAuthenticated()"
+            class="button button-secondary"
+            type="button"
+            (click)="logout()"
+          >
+            Cerrar sesion
+          </button>
+
+          <a *ngIf="!isAuthenticated()" class="button button-secondary" routerLink="/">
+            Volver al inicio
+          </a>
+        </div>
+      </form>
+    </article>
+  </section>
+</main>
