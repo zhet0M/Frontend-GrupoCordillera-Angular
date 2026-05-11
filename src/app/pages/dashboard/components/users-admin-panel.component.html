@@ -1,0 +1,144 @@
+<section class="users-panel">
+  <div class="users-summary">
+    <article class="summary-card">
+      <span class="summary-label">Pendientes</span>
+      <strong>{{ pendingUsers().length }}</strong>
+      <small>Registros esperando aprobación.</small>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Aprobados</span>
+      <strong>{{ approvedUsers().length }}</strong>
+      <small>Usuarios ya habilitados en el sistema.</small>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Bloqueados</span>
+      <strong>{{ blockedUsers().length }}</strong>
+      <small>Accesos suspendidos por administración.</small>
+    </article>
+  </div>
+
+  <p class="feedback feedback-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+  <p class="feedback feedback-success" *ngIf="successMessage()">{{ successMessage() }}</p>
+
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Buscar por usuario o correo..."
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
+    />
+  </div>
+
+  <section class="users-card">
+    <div class="section-header">
+      <div>
+        <span class="section-kicker">Gestión de usuarios</span>
+        <h3>Solicitudes pendientes</h3>
+      </div>
+      <button class="button button-secondary" type="button" (click)="loadData()" [disabled]="isLoading()">
+        {{ isLoading() ? 'Actualizando...' : 'Actualizar lista' }}
+      </button>
+    </div>
+
+    <div class="empty-state" *ngIf="!isLoading() && !pendingUsers().length">
+      No hay usuarios pendientes por revisar.
+    </div>
+
+    <div class="users-table" *ngIf="pendingUsers().length">
+      <article class="user-row" *ngFor="let user of pendingUsers()">
+        <div class="user-main">
+          <strong>{{ user.username }}</strong>
+          <small>{{ user.email }}</small>
+        </div>
+
+        <div class="user-meta">
+          <span class="status-badge status-pendiente">{{ getStatusLabel(user.estado) }}</span>
+        </div>
+
+        <div class="user-role">
+          <label [attr.for]="'role-' + user.id">Rol a asignar</label>
+          <select
+            [id]="'role-' + user.id"
+            [value]="selectedRoles()[user.id]"
+            (change)="updateSelectedRole(user.id, $any($event.target).value)"
+          >
+            <option *ngFor="let role of assignableRoles()" [value]="role">
+              {{ getRoleLabel(role) }}
+            </option>
+          </select>
+        </div>
+
+        <div class="user-actions">
+          <button
+            class="button button-primary"
+            type="button"
+            (click)="approveUser(user.id)"
+            [disabled]="isActionDisabled(user)"
+          >
+            Aprobar
+          </button>
+          <button
+            class="button button-danger"
+            type="button"
+            (click)="rejectUser(user.id)"
+            [disabled]="isActionDisabled(user)"
+          >
+            Rechazar
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="users-card">
+    <div class="section-header">
+      <div>
+        <span class="section-kicker">Registro completo</span>
+        <h3>Usuarios del sistema</h3>
+      </div>
+    </div>
+
+    <div class="users-table" *ngIf="users().length; else emptyUsers">
+      <article class="user-row user-row-compact" *ngFor="let user of users()">
+        <div class="user-main">
+          <strong>{{ user.username }}</strong>
+          <small>{{ user.email }}</small>
+        </div>
+
+        <div class="user-meta">
+          <span class="status-badge" [class.status-aprobado]="user.estado === 'APROBADO'" [class.status-rechazado]="user.estado === 'RECHAZADO'" [class.status-bloqueado]="user.estado === 'BLOQUEADO'" [class.status-pendiente]="user.estado === 'PENDIENTE'">
+            {{ getStatusLabel(user.estado) }}
+          </span>
+          <span class="role-badge">{{ getRoleLabel(user.rol) }}</span>
+        </div>
+
+        <div class="user-actions">
+          <button
+            *ngIf="user.estado === 'APROBADO'"
+            class="button button-secondary"
+            type="button"
+            (click)="blockUser(user.id)"
+            [disabled]="isActionDisabled(user)"
+          >
+            Bloquear
+          </button>
+          <button
+            *ngIf="user.estado === 'PENDIENTE' || user.estado === 'APROBADO'"
+            class="button button-danger"
+            type="button"
+            (click)="rejectUser(user.id)"
+            [disabled]="isActionDisabled(user)"
+          >
+            Rechazar
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <ng-template #emptyUsers>
+      <div class="empty-state">Aún no hay usuarios registrados para mostrar.</div>
+    </ng-template>
+  </section>
+</section>

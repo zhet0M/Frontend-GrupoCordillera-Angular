@@ -1,0 +1,100 @@
+<main class="login-shell">
+  <div class="login-glow glow-left" aria-hidden="true"></div>
+  <div class="login-glow glow-right" aria-hidden="true"></div>
+
+  <section class="login-layout">
+    <article class="login-info">
+      <a class="brand-link" routerLink="/">Grupo Cordillera</a>
+      <span class="eyebrow">Solicitud de acceso</span>
+      <h1>Unete a la plataforma interna</h1>
+
+      <ul class="info-points">
+        <li>El registro creara una solicitud de acceso en estado <strong>Pendiente</strong>.</li>
+        <li>Debes usar un correo con el dominio <strong>&#64;grupocordillera.com</strong>.</li>
+        <li>Un administrador revisara tu cuenta y te asignara el rol correspondiente.</li>
+        <li>Una vez aprobado, podras iniciar sesion y ver el dashboard.</li>
+      </ul>
+    </article>
+
+    <article class="login-card">
+      <div class="card-header">
+        <span class="card-kicker">Registro</span>
+        <h2>Crear nueva cuenta</h2>
+        <p>Ingresa tus datos para solicitar acceso al sistema.</p>
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="submit()" class="login-form" novalidate *ngIf="!isRegistered()">
+        <label class="field">
+          <span>Nombre de usuario</span>
+          <input
+            type="text"
+            formControlName="username"
+            placeholder="Ej. jrodriguez"
+            autocomplete="username"
+          />
+          <small *ngIf="hasFieldError('username')">
+            El usuario es obligatorio (min. 3 caracteres).
+          </small>
+        </label>
+
+        <label class="field">
+          <span>Correo corporativo</span>
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="usuario@grupocordillera.com"
+            autocomplete="email"
+          />
+          <small *ngIf="hasFieldError('email')">
+            Ingresa un correo valido.
+          </small>
+        </label>
+
+        <label class="field">
+          <span>Contrasena</span>
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Tu contrasena segura"
+            autocomplete="new-password"
+          />
+          <small *ngIf="hasFieldError('password')">
+            La contrasena es obligatoria.
+          </small>
+        </label>
+
+        <p class="feedback feedback-error" *ngIf="errorMessage()">
+          {{ errorMessage() }}
+        </p>
+
+        <div class="actions">
+          <button class="button button-primary" type="submit" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Enviando...' : 'Enviar solicitud' }}
+          </button>
+
+          <a class="button button-secondary" routerLink="/login">
+            Volver al login
+          </a>
+        </div>
+      </form>
+
+      <div class="success-state" *ngIf="isRegistered()">
+        <div class="success-icon">✓</div>
+        <h3>Solicitud enviada</h3>
+        <p class="feedback feedback-success">
+          {{ successMessage() }}
+        </p>
+        <p class="success-text">
+          Tu cuenta ha sido creada y esta a la espera de aprobacion.
+          Una vez un administrador la revise y te asigne un rol, podras iniciar sesion.
+        </p>
+
+        <div class="actions" style="margin-top: 24px;">
+          <a class="button button-primary" routerLink="/login" style="width: 100%;">
+            Ir a iniciar sesion
+          </a>
+        </div>
+      </div>
+    </article>
+  </section>
+</main>
