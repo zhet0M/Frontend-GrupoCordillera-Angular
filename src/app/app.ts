@@ -1,12 +1,19 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('frontend-cordillera');
+  protected readonly isMobileMenuOpen = signal(false);
+
+  protected toggleMobileMenu(): void {
+    this.isMobileMenuOpen.update((value) => !value);
+  }
+
+  protected closeMobileMenu(): void {
+    this.isMobileMenuOpen.set(false);
+  }
 }
