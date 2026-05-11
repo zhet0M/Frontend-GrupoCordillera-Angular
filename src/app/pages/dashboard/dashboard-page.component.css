@@ -50,6 +50,36 @@
   gap: 24px;
 }
 
+.header-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.mobile-overlay {
+  display: none;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: rgba(10, 16, 29, 0.72);
+  border: 1px solid rgba(156, 175, 202, 0.18);
+  color: #eef5ff;
+  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  transition: background 150ms ease;
+}
+
+.mobile-menu-btn:hover {
+  background: rgba(146, 166, 193, 0.1);
+}
+
 .brand-link {
   display: inline-flex;
   margin-bottom: 14px;
@@ -222,10 +252,70 @@
 }
 
 .tab-panel {
-  display: grid;
-  gap: 22px;
-  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px;
   border-radius: 28px;
+}
+
+@media (max-width: 992px) {
+  .dashboard-header {
+    flex-direction: column;
+  }
+
+  .dashboard-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .tabs-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-overlay {
+    display: block;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+  }
+
+  .mobile-overlay.overlay-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    position: relative;
+    z-index: 1002;
+  }
+
+  .tabs-nav {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 280px;
+    max-width: 85vw;
+    height: 100vh;
+    background: rgba(5, 10, 20, 0.98);
+    z-index: 1001;
+    border-radius: 0;
+    border-right: 1px solid rgba(146, 166, 193, 0.15);
+    transition: left 300ms ease;
+    display: flex;
+    flex-direction: column;
+    padding: 80px 20px 20px;
+    overflow-y: auto;
+  }
+
+  .tabs-nav.tabs-nav-open {
+    left: 0;
+  }
 }
 
 .tab-header {

@@ -4,18 +4,18 @@
       <span class="section-kicker">Módulo Comercial</span>
       <h3>Gestión de Ventas</h3>
     </div>
-    
+
     <div class="header-actions">
-      <button 
-        *ngIf="hasWriteAccess()" 
-        class="button button-primary" 
+      <button
+        *ngIf="hasWriteAccess()"
+        class="button button-primary"
         (click)="openNewSaleForm()"
       >
         + Registrar Venta
       </button>
-      <button 
-        class="button button-secondary" 
-        (click)="loadData()" 
+      <button
+        class="button button-secondary"
+        (click)="loadData()"
         [disabled]="isLoading()"
       >
         {{ isLoading() ? 'Actualizando...' : 'Actualizar' }}
@@ -41,9 +41,9 @@
   <p class="feedback feedback-success" *ngIf="successMessage()">{{ successMessage() }}</p>
 
   <div class="search-bar" *ngIf="!showForm()">
-    <input 
-      type="text" 
-      placeholder="Buscar por SKU, producto, sucursal o cliente..." 
+    <input
+      type="text"
+      placeholder="Buscar por SKU, producto, sucursal o cliente..."
       [value]="searchQuery()"
       (input)="searchQuery.set($any($event.target).value)"
     />
@@ -62,7 +62,7 @@
           <span>Sucursal *</span>
           <input type="text" formControlName="sucursal" placeholder="Ej. SUC-CENTRAL" />
         </label>
-        
+
         <label class="field">
           <span>SKU del Producto *</span>
           <input type="text" formControlName="skuProducto" placeholder="Ej. TEC-001" />
@@ -82,7 +82,7 @@
         </label>
 
         <label class="field" *ngIf="isEcommerce()">
-          <span>ID Cliente (Requerido para E-Commerce) *</span>
+          <span>ID Cliente </span>
           <input type="number" formControlName="clienteId" placeholder="Ej. 101" />
         </label>
       </div>
@@ -132,7 +132,7 @@
         </div>
 
         <div class="sale-finance">
-          <span class="status-badge" 
+          <span class="status-badge"
                 [class.status-ok]="sale.estadoFinanzas === 'SINCRONIZADO'"
                 [class.status-warning]="sale.estadoFinanzas === 'PENDIENTE'"
                 [class.status-error]="sale.estadoFinanzas === 'ERROR'">
