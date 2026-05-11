@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
 import { UserRole, UserSession } from '../../core/auth/auth.models';
 import { UsersAdminPanelComponent } from './components/users-admin-panel.component';
+import { InventoryPanelComponent } from './components/inventory-panel.component';
+import { SalesPanelComponent } from './components/sales-panel.component';
+import { ClientsPanelComponent } from './components/clients-panel.component';
 
 interface DashboardTab {
   id: string;
@@ -57,7 +60,7 @@ const DASHBOARD_TABS: readonly DashboardTab[] = [
     summary: 'Permite revisar actividad comercial y preparar decisiones del area de ventas.',
     metricLabel: 'Panel comercial',
     metricValue: 'Habilitado',
-    roles: ['SUPER_ADMIN', 'ADMIN_VENTAS'],
+    roles: ALL_ROLES,
   },
   {
     id: 'inventario',
@@ -67,7 +70,7 @@ const DASHBOARD_TABS: readonly DashboardTab[] = [
     summary: 'Entrega foco operativo sobre abastecimiento y niveles de inventario.',
     metricLabel: 'Stock critico',
     metricValue: 'En monitoreo',
-    roles: ['SUPER_ADMIN', 'ADMIN_INVENTARIO'],
+    roles: ALL_ROLES,
   },
   {
     id: 'finanzas',
@@ -87,7 +90,7 @@ const DASHBOARD_TABS: readonly DashboardTab[] = [
     summary: 'Ayuda a mantener el seguimiento del ciclo comercial del cliente.',
     metricLabel: 'Base comercial',
     metricValue: 'Activa',
-    roles: ['SUPER_ADMIN', 'ADMIN_CLIENTES'],
+    roles: ALL_ROLES,
   },
   {
     id: 'kpis',
@@ -134,7 +137,7 @@ const ROLE_LABELS: Record<UserRole, string> = {
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [CommonModule, UsersAdminPanelComponent],
+  imports: [CommonModule, UsersAdminPanelComponent, InventoryPanelComponent, SalesPanelComponent, ClientsPanelComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.css',
 })

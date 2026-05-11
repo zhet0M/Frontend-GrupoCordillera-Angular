@@ -1,0 +1,173 @@
+<section class="clients-panel">
+  <div class="panel-header">
+    <div>
+      <span class="section-kicker">Módulo de CRM</span>
+      <h3>Gestión de Clientes</h3>
+    </div>
+    
+    <div class="header-actions">
+      <button 
+        *ngIf="hasWriteAccess()" 
+        class="button button-primary" 
+        (click)="openNewClientForm()"
+      >
+        + Registrar Cliente
+      </button>
+      <button 
+        class="button button-secondary" 
+        (click)="loadData()" 
+        [disabled]="isLoading()"
+      >
+        {{ isLoading() ? 'Actualizando...' : 'Actualizar' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="clients-summary">
+    <article class="summary-card">
+      <span class="summary-label">Base de Clientes</span>
+      <strong>{{ filteredClients().length }}</strong>
+      <small>Registrados en el sistema.</small>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Historial de Compras</span>
+      <strong>{{ totalPurchases() }}</strong>
+      <small>Transacciones asociadas totales.</small>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Valor del Portafolio</span>
+      <strong>${{ totalAccumulated() | number:'1.0-0' }}</strong>
+      <small>Monto acumulado por clientes visibles.</small>
+    </article>
+  </div>
+
+  <p class="feedback feedback-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+  <p class="feedback feedback-success" *ngIf="successMessage()">{{ successMessage() }}</p>
+
+  <div class="search-bar" *ngIf="!showForm()">
+    <input 
+      type="text" 
+      placeholder="Buscar por nombre, correo o teléfono..." 
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
+    />
+  </div>
+
+  <!-- Formulario de Cliente -->
+  <article class="form-card" *ngIf="showForm()">
+    <div class="form-header">
+      <h4>{{ editingClient() ? 'Editar Cliente' : 'Registrar Nuevo Cliente' }}</h4>
+      <button class="close-btn" (click)="closeForm()" type="button">&times;</button>
+    </div>
+
+    <form [formGroup]="clientForm" (ngSubmit)="submitForm()" class="client-form">
+      <div class="form-grid">
+        <label class="field">
+          <span>Nombre *</span>
+          <input type="text" formControlName="nombre" placeholder="Ej. Juan" />
+        </label>
+        
+        <label class="field">
+          <span>Apellido *</span>
+          <input type="text" formControlName="apellido" placeholder="Ej. Pérez" />
+        </label>
+
+        <label class="field">
+          <span>Correo Electrónico *</span>
+          <input type="email" formControlName="email" placeholder="juan@correo.com" />
+        </label>
+
+        <label class="field">
+          <span>Teléfono *</span>
+          <input type="text" formControlName="telefono" placeholder="Ej. +56 9 1234 5678" />
+        </label>
+
+        <label class="field full-width">
+          <span>Dirección *</span>
+          <input type="text" formControlName="direccion" placeholder="Av. Principal 123" />
+        </label>
+
+        <label class="field">
+          <span>Clasificación (Snapshot) *</span>
+          <select formControlName="tipoCliente">
+            <option value="REGULAR">Regular</option>
+            <option value="FRECUENTE">Frecuente</option>
+            <option value="VIP">VIP</option>
+            <option value="CORPORATIVO">Corporativo</option>
+            <option value="MAYORISTA">Mayorista</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Estado *</span>
+          <select formControlName="estado">
+            <option value="ACTIVO">Activo</option>
+            <option value="INACTIVO">Inactivo</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="info-note" *ngIf="editingClient()">
+        <strong>Nota:</strong> Los datos actualizados aplicarán para las ventas futuras. Las ventas ya registradas conservarán la instantánea (snapshot) de cómo estaba el cliente al momento de la compra.
+      </div>
+
+      <div class="form-actions">
+        <button class="button button-secondary" type="button" (click)="closeForm()">Cancelar</button>
+        <button class="button button-primary" type="submit" [disabled]="isSubmitting() || clientForm.invalid">
+          {{ isSubmitting() ? 'Guardando...' : (editingClient() ? 'Actualizar Cliente' : 'Guardar Cliente') }}
+        </button>
+      </div>
+    </form>
+  </article>
+
+  <!-- Tabla de Clientes -->
+  <section class="clients-card" *ngIf="!showForm()">
+    <div class="empty-state" *ngIf="!isLoading() && !filteredClients().length">
+      No se encontraron clientes en el CRM.
+    </div>
+
+    <div class="clients-table" *ngIf="filteredClients().length">
+      <article class="client-row" *ngFor="let client of filteredClients()">
+        <div class="client-main">
+          <strong>{{ client.nombre }} {{ client.apellido }}</strong>
+          <small>ID: {{ client.id }} | Registrado: {{ client.fechaRegistro || 'N/A' }}</small>
+        </div>
+
+        <div class="client-contact">
+          <span>{{ client.email }}</span>
+          <small>{{ client.telefono }}</small>
+        </div>
+
+        <div class="client-meta">
+          <span class="type-badge" 
+                [class.type-vip]="client.tipoCliente === 'VIP' || client.tipoCliente === 'CORPORATIVO'"
+                [class.type-regular]="client.tipoCliente === 'REGULAR' || client.tipoCliente === 'FRECUENTE'"
+                [class.type-mayorista]="client.tipoCliente === 'MAYORISTA'">
+            {{ client.tipoCliente }}
+          </span>
+          <span class="status-badge" 
+                [class.status-ok]="client.estado === 'ACTIVO'"
+                [class.status-error]="client.estado === 'INACTIVO'">
+            {{ client.estado }}
+          </span>
+        </div>
+
+        <div class="client-stats">
+          <div class="stat-info">
+            <span>Compras: <strong>{{ client.cantidadCompras }}</strong></span>
+            <small>Total: ${{ client.montoAcumulado | number:'1.0-0' }}</small>
+          </div>
+          <small *ngIf="client.ultimaFechaCompra">Última: {{ client.ultimaFechaCompra }}</small>
+        </div>
+
+        <div class="client-actions" *ngIf="hasWriteAccess()">
+          <button class="button button-secondary" type="button" (click)="openEditForm(client)">
+            Editar
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+</section>

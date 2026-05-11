@@ -1,0 +1,150 @@
+<section class="sales-panel">
+  <div class="panel-header">
+    <div>
+      <span class="section-kicker">Módulo Comercial</span>
+      <h3>Gestión de Ventas</h3>
+    </div>
+    
+    <div class="header-actions">
+      <button 
+        *ngIf="hasWriteAccess()" 
+        class="button button-primary" 
+        (click)="openNewSaleForm()"
+      >
+        + Registrar Venta
+      </button>
+      <button 
+        class="button button-secondary" 
+        (click)="loadData()" 
+        [disabled]="isLoading()"
+      >
+        {{ isLoading() ? 'Actualizando...' : 'Actualizar' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="sales-summary">
+    <article class="summary-card">
+      <span class="summary-label">Ventas Totales</span>
+      <strong>{{ filteredSales().length }}</strong>
+      <small>Transacciones registradas.</small>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Monto Acumulado</span>
+      <strong>${{ totalSalesAmount() | number:'1.0-0' }}</strong>
+      <small>En ventas visibles.</small>
+    </article>
+  </div>
+
+  <p class="feedback feedback-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+  <p class="feedback feedback-success" *ngIf="successMessage()">{{ successMessage() }}</p>
+
+  <div class="search-bar" *ngIf="!showForm()">
+    <input 
+      type="text" 
+      placeholder="Buscar por SKU, producto, sucursal o cliente..." 
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
+    />
+  </div>
+
+  <!-- Formulario de Nueva Venta -->
+  <article class="form-card" *ngIf="showForm()">
+    <div class="form-header">
+      <h4>Registrar Nueva Venta</h4>
+      <button class="close-btn" (click)="closeForm()" type="button">&times;</button>
+    </div>
+
+    <form [formGroup]="saleForm" (ngSubmit)="submitForm()" class="sale-form">
+      <div class="form-grid">
+        <label class="field">
+          <span>Sucursal *</span>
+          <input type="text" formControlName="sucursal" placeholder="Ej. SUC-CENTRAL" />
+        </label>
+        
+        <label class="field">
+          <span>SKU del Producto *</span>
+          <input type="text" formControlName="skuProducto" placeholder="Ej. TEC-001" />
+        </label>
+
+        <label class="field">
+          <span>Cantidad *</span>
+          <input type="number" formControlName="cantidad" min="1" />
+        </label>
+
+        <label class="field">
+          <span>Canal de Venta *</span>
+          <select formControlName="canal">
+            <option value="POS">Punto de Venta (POS)</option>
+            <option value="ECOMMERCE">Tienda Online (E-commerce)</option>
+          </select>
+        </label>
+
+        <label class="field" *ngIf="isEcommerce()">
+          <span>ID Cliente (Requerido para E-Commerce) *</span>
+          <input type="number" formControlName="clienteId" placeholder="Ej. 101" />
+        </label>
+      </div>
+
+      <div class="info-note">
+        <strong>Nota:</strong> Al registrar la venta, el sistema descontará automáticamente el stock del módulo de Inventario y sincronizará el balance en Finanzas.
+      </div>
+
+      <div class="form-actions">
+        <button class="button button-secondary" type="button" (click)="closeForm()">Cancelar</button>
+        <button class="button button-primary" type="submit" [disabled]="isSubmitting() || saleForm.invalid">
+          {{ isSubmitting() ? 'Procesando...' : 'Completar Venta' }}
+        </button>
+      </div>
+    </form>
+  </article>
+
+  <!-- Tabla de Ventas -->
+  <section class="sales-card" *ngIf="!showForm()">
+    <div class="empty-state" *ngIf="!isLoading() && !filteredSales().length">
+      No se encontraron ventas registradas.
+    </div>
+
+    <div class="sales-table" *ngIf="filteredSales().length">
+      <article class="sale-row" *ngFor="let sale of filteredSales()">
+        <div class="sale-main">
+          <strong>{{ sale.nombreProducto || 'Producto ID: ' + sale.productoId }}</strong>
+          <small>SKU: {{ sale.skuProducto }} | Cantidad: {{ sale.cantidad }} x ${{ sale.precioUnitario }}</small>
+        </div>
+
+        <div class="sale-meta">
+          <span class="channel-badge" [class.canal-pos]="sale.canal === 'POS'" [class.canal-web]="sale.canal === 'ECOMMERCE'">
+            {{ sale.canal }}
+          </span>
+          <small>{{ sale.sucursal }}</small>
+        </div>
+
+        <div class="sale-client">
+          <div class="client-info" *ngIf="sale.clienteId">
+            <span>{{ sale.nombreCliente }} {{ sale.apellidoCliente }}</span>
+            <small>{{ sale.tipoClienteSnapshot }}</small>
+          </div>
+          <div class="client-info" *ngIf="!sale.clienteId">
+            <span>Venta anónima</span>
+            <small>Sin registro de cliente</small>
+          </div>
+        </div>
+
+        <div class="sale-finance">
+          <span class="status-badge" 
+                [class.status-ok]="sale.estadoFinanzas === 'SINCRONIZADO'"
+                [class.status-warning]="sale.estadoFinanzas === 'PENDIENTE'"
+                [class.status-error]="sale.estadoFinanzas === 'ERROR'">
+            Finanzas: {{ sale.estadoFinanzas }}
+          </span>
+          <small *ngIf="sale.fecha">{{ sale.fecha }}</small>
+        </div>
+
+        <div class="sale-price">
+          <strong>${{ sale.montoTotal | number:'1.0-0' }}</strong>
+        </div>
+      </article>
+    </div>
+  </section>
+</section>
