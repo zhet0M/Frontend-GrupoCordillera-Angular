@@ -1,0 +1,191 @@
+<section class="inventory-panel">
+  <div class="panel-header">
+    <div>
+      <span class="section-kicker">Módulo de Inventario</span>
+      <h3>Catálogo de Productos</h3>
+    </div>
+
+    <div class="header-actions">
+      <button
+        *ngIf="hasWriteAccess()"
+        class="button button-primary"
+        (click)="openNewProductForm()"
+      >
+        + Nuevo Producto
+      </button>
+      <button
+        class="button button-secondary"
+        (click)="loadData()"
+        [disabled]="isLoading()"
+      >
+        {{ isLoading() ? 'Actualizando...' : 'Actualizar' }}
+      </button>
+    </div>
+  </div>
+
+  <p class="feedback feedback-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+  <p class="feedback feedback-success" *ngIf="successMessage()">{{ successMessage() }}</p>
+
+  <div class="search-bar" *ngIf="!showForm()">
+    <input
+      type="text"
+      placeholder="Buscar por SKU, nombre o sucursal..."
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
+    />
+  </div>
+
+  <!-- Formulario de Producto -->
+  <article class="form-card" *ngIf="showForm()">
+    <div class="form-header">
+      <h4>{{ editingProduct() ? 'Editar Producto' : 'Registrar Nuevo Producto' }}</h4>
+      <button class="close-btn" (click)="closeForm()" type="button">&times;</button>
+    </div>
+
+    <form [formGroup]="productForm" (ngSubmit)="submitForm()" class="product-form">
+      <div class="form-grid">
+        <label class="field">
+          <span>SKU *</span>
+          <input type="text" formControlName="sku" placeholder="Ej. TEC-001" [readOnly]="editingProduct() !== null" />
+        </label>
+
+        <label class="field">
+          <span>Nombre *</span>
+          <input type="text" formControlName="nombre" placeholder="Nombre del producto" />
+        </label>
+
+        <label class="field">
+          <span>Categoría *</span>
+          <select formControlName="categoria">
+            <option value="TECNOLOGIA">Tecnología</option>
+            <option value="HOGAR">Hogar</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Sucursal *</span>
+          <input type="text" formControlName="sucursal" placeholder="Ej. SUC-CENTRAL" />
+        </label>
+
+        <label class="field">
+          <span>Precio *</span>
+          <input type="number" formControlName="precio" min="0" />
+        </label>
+
+        <label class="field">
+          <span>Costo *</span>
+          <input type="number" formControlName="costo" min="0" />
+        </label>
+
+        <label class="field">
+          <span>Stock Actual *</span>
+          <input type="number" formControlName="stock" min="0" />
+        </label>
+
+        <label class="field">
+          <span>Stock Mínimo *</span>
+          <input type="number" formControlName="stockMinimo" min="0" />
+        </label>
+
+        <label class="field">
+          <span>Marca</span>
+          <input type="text" formControlName="marca" />
+        </label>
+
+        <label class="field">
+          <span>Modelo</span>
+          <input type="text" formControlName="modelo" />
+        </label>
+      </div>
+
+      <label class="field full-width">
+        <span>Descripción</span>
+        <textarea formControlName="descripcion" rows="2"></textarea>
+      </label>
+
+      <!-- Campos Específicos Tecnología -->
+      <div class="specific-fields" *ngIf="isCategory('TECNOLOGIA')">
+        <h5>Atributos de Tecnología</h5>
+        <div class="form-grid">
+          <label class="field">
+            <span>Meses de Garantía</span>
+            <input type="number" formControlName="mesesGarantia" min="0" />
+          </label>
+          <label class="field">
+            <span>Voltaje</span>
+            <input type="text" formControlName="voltaje" placeholder="Ej. 220V" />
+          </label>
+        </div>
+      </div>
+
+      <!-- Campos Específicos Hogar -->
+      <div class="specific-fields" *ngIf="isCategory('HOGAR')">
+        <h5>Atributos de Hogar</h5>
+        <div class="form-grid">
+          <label class="field">
+            <span>Material</span>
+            <input type="text" formControlName="material" placeholder="Ej. Madera" />
+          </label>
+          <label class="field">
+            <span>Dimensiones</span>
+            <input type="text" formControlName="dimensiones" placeholder="Ej. 120x60x80 cm" />
+          </label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="button button-secondary" type="button" (click)="closeForm()">Cancelar</button>
+        <button class="button button-primary" type="submit" [disabled]="isSubmitting() || productForm.invalid">
+          {{ isSubmitting() ? 'Guardando...' : 'Guardar Producto' }}
+        </button>
+      </div>
+    </form>
+  </article>
+
+  <!-- Tabla de Productos -->
+  <section class="products-card" *ngIf="!showForm()">
+    <div class="empty-state" *ngIf="!isLoading() && !filteredProducts().length">
+      No se encontraron productos en el inventario.
+    </div>
+
+    <div class="products-table" *ngIf="filteredProducts().length">
+      <article class="product-row" *ngFor="let product of filteredProducts()">
+        <div class="product-main">
+          <strong>{{ product.nombre }}</strong>
+          <small>{{ product.sku }} | {{ product.marca || 'Sin marca' }}</small>
+        </div>
+
+        <div class="product-meta">
+          <span class="category-badge" [class.cat-tech]="product.categoria === 'TECNOLOGIA'" [class.cat-home]="product.categoria === 'HOGAR'">
+            {{ product.categoria }}
+          </span>
+          <small>{{ product.sucursal }}</small>
+        </div>
+
+        <div class="product-stock">
+          <div class="stock-info">
+            <span>Stock: <strong>{{ product.stock }}</strong></span>
+            <small>Mínimo: {{ product.stockMinimo }}</small>
+          </div>
+          <span class="status-badge"
+                [class.status-ok]="product.estado === 'DISPONIBLE'"
+                [class.status-warning]="product.stock > 0 && product.stock <= product.stockMinimo"
+                [class.status-error]="product.estado === 'AGOTADO'"
+                [class.status-desc]="product.estado === 'DESCONTINUADO'">
+            {{ product.estado }}
+          </span>
+        </div>
+
+        <div class="product-price">
+          <strong>${{ product.precio }}</strong>
+        </div>
+
+        <div class="product-actions" *ngIf="hasWriteAccess()">
+          <button class="button button-secondary" type="button" (click)="openEditForm(product)">
+            Editar
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+</section>

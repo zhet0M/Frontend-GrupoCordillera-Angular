@@ -41,7 +41,6 @@
     <article class="overview-card">
       <span class="overview-label">Sesion</span>
       <strong>Activa</strong>
-      <small>Token almacenado localmente para siguientes integraciones.</small>
     </article>
   </section>
 
@@ -76,17 +75,19 @@
 
       <p class="tab-description">{{ tab.description }}</p>
 
-      <app-users-admin-panel *ngIf="tab.id === 'usuarios'; else defaultTabContent" />
+      <app-users-admin-panel *ngIf="tab.id === 'usuarios'" />
+      <app-inventory-panel *ngIf="tab.id === 'inventario'" />
+      <app-sales-panel *ngIf="tab.id === 'ventas'" />
+      <app-clients-panel *ngIf="tab.id === 'clientes'" />
 
-      <ng-template #defaultTabContent>
-        <section class="detail-grid">
+      <section class="detail-grid" *ngIf="tab.id !== 'usuarios' && tab.id !== 'inventario' && tab.id !== 'ventas' && tab.id !== 'clientes'">
         <article class="detail-card">
           <span class="detail-label">Resumen</span>
           <strong>{{ tab.summary }}</strong>
         </article>
 
         <article class="detail-card">
-          <span class="detail-label">Siguiente etapa</span>
+          <span class="detail-label">¿Que falta?</span>
           <strong>Conectar este modulo con su microservicio correspondiente.</strong>
         </article>
 
@@ -94,8 +95,7 @@
           <span class="detail-label">Permisos</span>
           <strong>Visible solo para roles autorizados por el backend.</strong>
         </article>
-        </section>
-      </ng-template>
+      </section>
     </article>
   </section>
 </main>

@@ -167,6 +167,7 @@
   border-radius: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 180ms ease;
 }
 
 .button:disabled {
@@ -179,16 +180,29 @@
   color: #03111f;
 }
 
+.button-primary:not(:disabled):hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
 .button-secondary {
   border-color: rgba(156, 175, 202, 0.18);
   background: rgba(10, 16, 29, 0.72);
   color: #eef5ff;
 }
 
+.button-secondary:not(:disabled):hover {
+  background: rgba(146, 166, 193, 0.1);
+}
+
 .button-danger {
   border-color: rgba(255, 129, 129, 0.2);
   background: rgba(87, 24, 24, 0.44);
   color: #ffd9d9;
+}
+
+.button-danger:not(:disabled):hover {
+  background: rgba(255, 129, 129, 0.2);
 }
 
 .feedback {
