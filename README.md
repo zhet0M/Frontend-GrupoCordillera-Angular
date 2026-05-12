@@ -1,59 +1,129 @@
-# FrontendCordillera
+# Frontend Cordillera
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.3.
+## Descripción del Proyecto
 
-## Development server
+Frontend Cordillera es la interfaz de usuario para la **Plataforma de Monitoreo Ejecutivo del Grupo Cordillera**. Esta aplicación Angular proporciona un dashboard interactivo para el monitoreo y gestión de operaciones empresariales, incluyendo módulos de clientes, finanzas, inventario y ventas.
 
-To start a local development server, run:
+La plataforma permite a los usuarios ejecutivos acceder a métricas clave, reportes en tiempo real y herramientas de gestión a través de una interfaz moderna y responsiva.
+
+## Características Principales
+
+- **Autenticación y Autorización**: Sistema de login/registro con guards de ruta
+- **Dashboard Ejecutivo**: Vista centralizada de métricas y KPIs
+- **Interfaz Responsiva**: Diseño adaptativo para dispositivos móviles y desktop
+- **Material Design**: Componentes de Angular Material para una experiencia consistente
+- **Navegación Segura**: Guards que protegen rutas según el estado de autenticación
+
+## Tecnologías Utilizadas
+
+- **Angular 21**: Framework principal para el desarrollo de la aplicación
+- **Angular Material**: Biblioteca de componentes UI
+- **TypeScript**: Lenguaje de programación tipado
+- **RxJS**: Programación reactiva para manejo de datos asíncronos
+- **Vitest**: Framework de testing moderno
+- **Prettier**: Formateador de código
+
+## Prerrequisitos
+
+Antes de ejecutar el proyecto, asegúrate de tener instalado:
+
+- **Node.js** (versión 18 o superior)
+- **npm** (viene incluido con Node.js)
+- **Angular CLI** (versión 21 o superior)
 
 ```bash
+npm install -g @angular/cli
+```
+
+## Instalación
+
+1. Clona el repositorio o navega al directorio del proyecto:
+
+```bash
+cd frontend-cordillera
+```
+
+2. Instala las dependencias:
+
+```bash
+npm install
+```
+
+## Uso
+
+### Servidor de Desarrollo
+
+Para iniciar el servidor de desarrollo local:
+
+```bash
+npm start
+# o
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+La aplicación estará disponible en `http://localhost:4200/`. Los cambios en el código se reflejarán automáticamente gracias al hot reload.
 
-## Code scaffolding
+### Construcción para Producción
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Para construir la aplicación para producción:
 
 ```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
+npm run build
+# o
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Los archivos compilados se almacenarán en el directorio `dist/`.
 
-## Running unit tests
+### Testing
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Para ejecutar las pruebas unitarias:
 
 ```bash
+npm test
+# o
 ng test
 ```
 
-## Running end-to-end tests
+Las pruebas utilizan Vitest como runner.
 
-For end-to-end (e2e) testing, run:
+## Estructura del Proyecto
+
+```
+src/
+├── app/
+│   ├── core/           # Servicios core (auth, guards, etc.)
+│   ├── pages/          # Componentes de páginas principales
+│   │   ├── dashboard/  # Dashboard ejecutivo
+│   │   ├── landing/    # Página de inicio
+│   │   ├── login/      # Página de login
+│   │   └── register/   # Página de registro
+│   ├── shared/         # Componentes compartidos
+│   └── app.routes.ts   # Configuración de rutas
+├── assets/             # Recursos estáticos
+├── styles.css          # Estilos globales
+└── index.html          # Template principal
+```
+
+## API Backend
+
+Esta aplicación frontend se conecta con los servicios backend del Grupo Cordillera:
+
+- **API Gateway**: Punto de entrada unificado
+- **Authentication Service**: Gestión de autenticación
+- **Clientes Service**: Gestión de clientes
+- **Finanzas Service**: Gestión financiera
+- **Inventario Service**: Control de inventario
+- **Ventas Service**: Gestión de ventas
+
+Asegúrate de que los servicios backend estén ejecutándose para una funcionalidad completa.
+
+
+## Licencia
+
+Este proyecto es propiedad del Grupo Cordillera. Todos los derechos reservados.
 
 ```bash
 ng e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
