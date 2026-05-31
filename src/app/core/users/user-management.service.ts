@@ -50,6 +50,12 @@ export class UserManagementService {
       .pipe(catchError((error) => throwError(() => new Error(this.extractErrorMessage(error)))));
   }
 
+  unblockUser(userId: number): Observable<ManagedUser> {
+    return this.http
+      .put<ManagedUser>(`${this.apiUrl}/usuarios/${userId}/desbloquear`, {})
+      .pipe(catchError((error) => throwError(() => new Error(this.extractErrorMessage(error)))));
+  }
+
   private extractErrorMessage(error: unknown): string {
     if (error instanceof HttpErrorResponse) {
       if (typeof error.error === 'string' && error.error.trim()) {

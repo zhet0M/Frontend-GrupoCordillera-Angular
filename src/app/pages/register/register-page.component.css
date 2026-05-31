@@ -15,7 +15,7 @@
   height: 64px;
   border-radius: 50%;
   background: rgba(30, 214, 188, 0.15);
-  color: #1ed6bc;
+  color: var(--app-accent);
   font-size: 2rem;
   margin-bottom: 20px;
   border: 1px solid rgba(30, 214, 188, 0.3);
@@ -24,11 +24,11 @@
 .success-state h3 {
   margin: 0 0 12px;
   font-size: 1.5rem;
-  color: #eef5ff;
+  color: var(--app-text);
 }
 
 .success-text {
-  color: #a6b7cb;
+  color: var(--app-text-soft);
   line-height: 1.6;
   margin: 16px 0 0;
 }

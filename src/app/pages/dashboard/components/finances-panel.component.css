@@ -23,7 +23,7 @@
 .panel-header h3 {
   margin: 0;
   font-size: 1.5rem;
-  color: #eef5ff;
+  color: var(--app-text);
 }
 
 .header-actions {
@@ -42,9 +42,9 @@
   gap: 10px;
   padding: 18px;
   border-radius: 22px;
-  border: 1px solid rgba(140, 159, 187, 0.18);
-  background: linear-gradient(180deg, rgba(8, 18, 34, 0.9) 0%, rgba(5, 10, 20, 0.96) 100%);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--app-border);
+  background: linear-gradient(180deg, var(--app-surface) 0%, var(--app-surface-2) 100%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(18px);
 }
 
@@ -53,7 +53,7 @@
 }
 
 .summary-card small {
-  color: #96a8bf;
+  color: var(--app-text-muted);
 }
 
 .summary-label {
@@ -62,7 +62,7 @@
   border-radius: 999px;
   padding: 8px 14px;
   border: 1px solid rgba(40, 212, 188, 0.24);
-  background: rgba(8, 18, 34, 0.76);
+  background: var(--app-surface-2);
   font-size: 0.84rem;
 }
 
@@ -83,10 +83,10 @@
   width: 100%;
   min-height: 48px;
   padding: 0 16px;
-  border: 1px solid rgba(146, 166, 193, 0.2);
+  border: 1px solid var(--app-border-strong);
   border-radius: 16px;
-  background: rgba(7, 15, 28, 0.95);
-  color: #eef5ff;
+  background: var(--app-surface);
+  color: var(--app-text);
   outline: none;
   font-size: 0.95rem;
   transition: border-color 180ms ease, box-shadow 180ms ease;
@@ -98,8 +98,8 @@
 }
 
 .form-card {
-  background: rgba(7, 15, 28, 0.6);
-  border: 1px solid rgba(146, 166, 193, 0.15);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
   border-radius: 20px;
   padding: 24px;
 }
@@ -115,14 +115,14 @@
 
 .form-header h4 {
   margin: 0;
-  color: #eef5ff;
+  color: var(--app-text);
   font-size: 1.25rem;
 }
 
 .close-btn {
   background: none;
   border: none;
-  color: #92a6c1;
+  color: var(--app-text-muted);
   font-size: 1.5rem;
   cursor: pointer;
   padding: 4px 8px;
@@ -132,7 +132,7 @@
 
 .close-btn:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  color: var(--app-text);
 }
 
 .finance-form {
@@ -155,7 +155,7 @@
 
 .field span {
   font-size: 0.85rem;
-  color: #92a6c1;
+  color: var(--app-text-muted);
   font-weight: 500;
 }
 
@@ -163,10 +163,10 @@
 .field select {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid rgba(146, 166, 193, 0.2);
+  border: 1px solid var(--app-border-strong);
   border-radius: 12px;
-  background: rgba(7, 15, 28, 0.8);
-  color: #eef5ff;
+  background: var(--app-surface);
+  color: var(--app-text);
   font-family: inherit;
   font-size: 0.95rem;
   outline: none;
@@ -184,7 +184,7 @@
   border-radius: 12px;
   background: rgba(40, 212, 188, 0.1);
   border: 1px solid rgba(40, 212, 188, 0.2);
-  color: #eef5ff;
+  color: var(--app-text);
   font-size: 0.9rem;
 }
 
@@ -198,8 +198,8 @@
 }
 
 .finances-card {
-  background: rgba(7, 15, 28, 0.6);
-  border: 1px solid rgba(146, 166, 193, 0.15);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
   border-radius: 20px;
   overflow: hidden;
 }
@@ -207,7 +207,7 @@
 .empty-state {
   padding: 48px;
   text-align: center;
-  color: #92a6c1;
+  color: var(--app-text-muted);
 }
 
 .finances-table {
@@ -221,7 +221,7 @@
   align-items: center;
   gap: 16px;
   padding: 16px 24px;
-  border-bottom: 1px solid rgba(146, 166, 193, 0.1);
+  border-bottom: 1px solid var(--app-border);
   transition: background 150ms ease;
 }
 
@@ -244,19 +244,19 @@
 }
 
 .transaction-main strong {
-  color: #eef5ff;
+  color: var(--app-text);
   font-size: 1rem;
 }
 
 .transaction-main small,
 .transaction-meta small,
 .transaction-date small {
-  color: #92a6c1;
+  color: var(--app-text-muted);
   font-size: 0.8rem;
 }
 
 .transaction-date span {
-  color: #d7e2ef;
+  color: var(--app-text);
   font-size: 0.9rem;
 }
 

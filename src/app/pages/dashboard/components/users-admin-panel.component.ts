@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { finalize } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 
 import { UserRole } from '../../../core/auth/auth.models';
 import { ManagedUser } from '../../../core/users/user-management.models';
@@ -110,6 +110,10 @@ export class UsersAdminPanelComponent {
     this.runAction(userId, () => this.userManagementService.blockUser(userId), 'Usuario bloqueado correctamente.');
   }
 
+  protected unblockUser(userId: number): void {
+    this.runAction(userId, () => this.userManagementService.unblockUser(userId), 'Usuario desbloqueado correctamente.');
+  }
+
   protected updateSelectedRole(userId: number, role: string): void {
     if (!role) {
       return;
@@ -176,7 +180,7 @@ export class UsersAdminPanelComponent {
 
   private runAction(
     userId: number,
-    requestFactory: () => ReturnType<UserManagementService['approveUser']>,
+    requestFactory: () => Observable<ManagedUser>,
     successMessage: string,
   ): void {
     this.actionUserId.set(userId);

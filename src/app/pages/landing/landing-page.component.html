@@ -1,4 +1,4 @@
-<main class="landing-shell">
+<main class="landing-shell" [class.theme-light]="theme() === 'light'">
   <div class="background-grid" aria-hidden="true"></div>
   <div class="background-glow glow-left" aria-hidden="true"></div>
   <div class="background-glow glow-right" aria-hidden="true"></div>
@@ -12,18 +12,30 @@
       </span>
     </a>
 
-    <button
-      class="mobile-menu-toggle"
-      type="button"
-      [attr.aria-expanded]="isMobileMenuOpen()"
-      aria-controls="main-navigation"
-      aria-label="Abrir menu de navegacion"
-      (click)="toggleMobileMenu()"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+    <div class="topbar-controls">
+      <button
+        class="theme-toggle"
+        type="button"
+        [attr.aria-pressed]="theme() === 'light'"
+        [attr.aria-label]="theme() === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+        (click)="toggleTheme()"
+      >
+        {{ themeLabel() }}
+      </button>
+
+      <button
+        class="mobile-menu-toggle"
+        type="button"
+        [attr.aria-expanded]="isMobileMenuOpen()"
+        aria-controls="main-navigation"
+        aria-label="Abrir menu de navegacion"
+        (click)="toggleMobileMenu()"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
 
     <nav
       class="topbar-actions"
