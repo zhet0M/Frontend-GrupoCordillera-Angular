@@ -125,6 +125,15 @@
             Bloquear
           </button>
           <button
+            *ngIf="user.estado === 'BLOQUEADO'"
+            class="button button-success"
+            type="button"
+            (click)="unblockUser(user.id)"
+            [disabled]="isActionDisabled(user)"
+          >
+            Desbloquear
+          </button>
+          <button
             *ngIf="user.estado === 'PENDIENTE' || user.estado === 'APROBADO'"
             class="button button-danger"
             type="button"

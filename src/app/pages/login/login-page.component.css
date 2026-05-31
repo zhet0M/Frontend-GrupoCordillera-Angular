@@ -10,8 +10,8 @@
   background:
     radial-gradient(circle at top left, rgba(30, 214, 188, 0.16), transparent 35%),
     radial-gradient(circle at bottom right, rgba(63, 102, 245, 0.18), transparent 32%),
-    linear-gradient(180deg, #03111f 0%, #020814 100%);
-  color: #e7edf6;
+    linear-gradient(180deg, var(--app-bg-elevated) 0%, var(--app-bg) 100%);
+  color: var(--app-text);
 }
 
 .login-glow {
@@ -54,7 +54,7 @@
 
 .brand-link {
   width: fit-content;
-  color: #e7edf6;
+  color: var(--app-text);
   font-size: 1rem;
   font-weight: 700;
   text-decoration: none;
@@ -68,8 +68,8 @@
   padding: 8px 14px;
   border: 1px solid rgba(40, 212, 188, 0.24);
   border-radius: 999px;
-  background: rgba(8, 18, 34, 0.76);
-  color: #7cf0db;
+  background: var(--app-surface-2);
+  color: var(--app-accent-strong);
   font-size: 0.84rem;
 }
 
@@ -81,7 +81,7 @@
 
 .login-info p {
   margin: 0;
-  color: #a6b7cb;
+  color: var(--app-text-soft);
   font-size: 1.02rem;
   line-height: 1.75;
 }
@@ -89,8 +89,8 @@
 .login-info code {
   padding: 2px 8px;
   border-radius: 999px;
-  background: rgba(12, 26, 46, 0.9);
-  color: #eef5ff;
+  background: var(--app-surface-3);
+  color: var(--app-text);
   font-family: Consolas, 'Courier New', monospace;
   font-size: 0.95em;
 }
@@ -104,22 +104,22 @@
 }
 
 .text-link {
-  color: #28d4bc;
+  color: var(--app-accent);
   text-decoration: none;
   font-weight: 600;
   transition: color 180ms ease;
 }
 
 .text-link:hover {
-  color: #7cf0db;
+  color: var(--app-accent-strong);
   text-decoration: underline;
 }
 
 .info-card,
 .login-card {
-  border: 1px solid rgba(140, 159, 187, 0.18);
-  background: linear-gradient(180deg, rgba(8, 18, 34, 0.9) 0%, rgba(5, 10, 20, 0.96) 100%);
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--app-border);
+  background: linear-gradient(180deg, var(--app-surface) 0%, var(--app-surface-2) 100%);
+  box-shadow: var(--app-shadow);
   backdrop-filter: blur(18px);
 }
 
@@ -135,7 +135,7 @@
 }
 
 .info-card small {
-  color: #90a3bd;
+  color: var(--app-text-muted);
 }
 
 .success-card {
@@ -156,7 +156,7 @@
 
 .card-header p {
   margin: 0;
-  color: #9db0c7;
+  color: var(--app-text-soft);
   line-height: 1.7;
 }
 
@@ -171,7 +171,7 @@
 }
 
 .field span {
-  color: #d8e2ef;
+  color: var(--app-text);
   font-size: 0.94rem;
 }
 
@@ -179,10 +179,10 @@
   width: 100%;
   min-height: 52px;
   padding: 0 16px;
-  border: 1px solid rgba(146, 166, 193, 0.2);
+  border: 1px solid var(--app-border-strong);
   border-radius: 16px;
-  background: rgba(7, 15, 28, 0.95);
-  color: #eef5ff;
+  background: var(--app-surface);
+  color: var(--app-text);
   outline: none;
   transition:
     border-color 180ms ease,
@@ -195,7 +195,7 @@
 }
 
 .field small {
-  color: #ffb4b4;
+  color: #ff8f8f;
 }
 
 .feedback {
@@ -259,9 +259,9 @@
 }
 
 .button-secondary {
-  border-color: rgba(156, 175, 202, 0.18);
-  background: rgba(10, 16, 29, 0.72);
-  color: #eef5ff;
+  border-color: var(--app-border-strong);
+  background: var(--app-button-bg);
+  color: var(--app-button-text);
 }
 
 @media (max-width: 980px) {

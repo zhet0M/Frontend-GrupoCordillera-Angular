@@ -1,6 +1,45 @@
 :root {
   color-scheme: dark;
   font-family: 'Inter', 'Segoe UI', sans-serif;
+  --app-bg: #01050c;
+  --app-bg-elevated: #020814;
+  --app-surface: rgba(7, 14, 26, 0.96);
+  --app-surface-2: rgba(10, 16, 29, 0.82);
+  --app-surface-3: rgba(12, 22, 38, 0.9);
+  --app-border: rgba(140, 159, 187, 0.16);
+  --app-border-strong: rgba(156, 175, 202, 0.18);
+  --app-text: #e7edf6;
+  --app-text-strong: #fbfdff;
+  --app-text-muted: #90a3bd;
+  --app-text-soft: #a7b6ca;
+  --app-accent: #28d4bc;
+  --app-accent-strong: #7cf0db;
+  --app-button-bg: rgba(10, 16, 29, 0.72);
+  --app-button-bg-hover: rgba(10, 16, 29, 0.92);
+  --app-button-text: #eef5ff;
+  --app-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+}
+
+:root.theme-light,
+body.theme-light {
+  color-scheme: light;
+  --app-bg: #eef4fb;
+  --app-bg-elevated: #f7fbff;
+  --app-surface: rgba(255, 255, 255, 0.94);
+  --app-surface-2: rgba(255, 255, 255, 0.82);
+  --app-surface-3: rgba(243, 248, 255, 0.9);
+  --app-border: rgba(95, 116, 146, 0.16);
+  --app-border-strong: rgba(95, 116, 146, 0.22);
+  --app-text: #102033;
+  --app-text-strong: #0b1a2b;
+  --app-text-muted: #60748d;
+  --app-text-soft: #4d627d;
+  --app-accent: #15999b;
+  --app-accent-strong: #0f7d80;
+  --app-button-bg: rgba(255, 255, 255, 0.82);
+  --app-button-bg-hover: rgba(255, 255, 255, 0.96);
+  --app-button-text: #102033;
+  --app-shadow: 0 24px 80px rgba(48, 73, 106, 0.12);
 }
 
 * {
@@ -14,8 +53,8 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  background: #01050c;
-  color: #e7edf6;
+  background: var(--app-bg);
+  color: var(--app-text);
   font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
