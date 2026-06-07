@@ -58,6 +58,36 @@ body {
   font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
+.global-theme-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--app-border-strong);
+  border-radius: 999px;
+  background: var(--app-button-bg);
+  color: var(--app-button-text);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--app-shadow);
+  backdrop-filter: blur(14px);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.global-theme-toggle:hover {
+  transform: translateY(-1px);
+  border-color: rgba(40, 212, 188, 0.42);
+  background: var(--app-button-bg-hover);
+}
+
 a,
 button,
 input,

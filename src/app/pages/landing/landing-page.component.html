@@ -14,13 +14,13 @@
 
     <div class="topbar-controls">
       <button
-        class="theme-toggle"
+        class="theme-toggle theme-toggle-compact"
         type="button"
         [attr.aria-pressed]="theme() === 'light'"
         [attr.aria-label]="theme() === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
         (click)="toggleTheme()"
       >
-        {{ themeLabel() }}
+        {{ themeIcon() }}
       </button>
 
       <button

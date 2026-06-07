@@ -41,7 +41,7 @@
 
     <article class="overview-card">
       <span class="overview-label">Acceso principal</span>
-      <strong>{{ activeTab()?.label || 'Sin modulo' }}</strong>
+      <strong>{{ activeTab() ? activeTab()!.label : 'Sin modulo' }}</strong>
       <small>Se ajusta automaticamente segun tus permisos.</small>
     </article>
 
@@ -59,7 +59,7 @@
         *ngFor="let tab of visibleTabs()"
         class="tab-button"
         type="button"
-        [class.tab-button-active]="activeTab()?.id === tab.id"
+        [class.tab-button-active]="activeTab() ? activeTab()!.id === tab.id : false"
         (click)="selectTab(tab.id)"
       >
         <span class="tab-icon">{{ tab.icon }}</span>
@@ -89,8 +89,9 @@
       <app-sales-panel *ngIf="tab.id === 'ventas'" />
       <app-clients-panel *ngIf="tab.id === 'clientes'" />
       <app-finances-panel *ngIf="tab.id === 'finanzas'" />
+      <app-kpis-panel *ngIf="tab.id === 'kpis'" />
 
-      <section class="detail-grid" *ngIf="tab.id !== 'usuarios' && tab.id !== 'inventario' && tab.id !== 'ventas' && tab.id !== 'clientes' && tab.id !== 'finanzas'">
+      <section class="detail-grid" *ngIf="tab.id !== 'usuarios' && tab.id !== 'inventario' && tab.id !== 'ventas' && tab.id !== 'clientes' && tab.id !== 'finanzas' && tab.id !== 'kpis'">
         <article class="detail-card">
           <span class="detail-label">Resumen</span>
           <strong>{{ tab.summary }}</strong>
