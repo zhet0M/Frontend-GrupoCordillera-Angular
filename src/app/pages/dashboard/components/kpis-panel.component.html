@@ -1,0 +1,95 @@
+<section class="kpis-panel">
+  <div class="panel-header">
+    <div>
+      <span class="section-kicker">Metrica Ejecutiva</span>
+      <h3>KPIs Consolidados</h3>
+    </div>
+
+    <button class="button button-secondary" type="button" (click)="loadData()" [disabled]="isLoading()">
+      {{ isLoading() ? 'Actualizando...' : 'Actualizar' }}
+    </button>
+  </div>
+
+  <nav class="kpi-tabs" aria-label="Pestañas de KPIs">
+    <button
+      *ngFor="let tab of tabs"
+      type="button"
+      class="kpi-tab"
+      [class.kpi-tab-active]="activeTabId() === tab.id"
+      (click)="selectTab(tab.id)"
+    >
+      <strong>{{ tab.label }}</strong>
+      <small>{{ tab.description }}</small>
+    </button>
+  </nav>
+
+  <div class="kpis-summary">
+    <article class="summary-card">
+      <span class="summary-label">Positivos</span>
+      <strong>{{ totalPositivos() }}</strong>
+      <small>Indicadores con lectura favorable.</small>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Neutros</span>
+      <strong>{{ totalNeutros() }}</strong>
+      <small>Indicadores sin variacion relevante.</small>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Negativos</span>
+      <strong>{{ totalNegativos() }}</strong>
+      <small>Indicadores que requieren atencion.</small>
+    </article>
+  </div>
+
+  <p class="feedback feedback-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+
+  <div class="section-intro" *ngIf="activeTab() as tab">
+    <strong>{{ tab.label }}</strong>
+    <span>{{ tab.description }}</span>
+  </div>
+
+  <div class="kpis-grid" *ngIf="!isLoading() && visibleKpis().length; else emptyState">
+    <article class="kpi-card" *ngFor="let kpi of visibleKpis(); trackBy: trackByTipo">
+      <div class="kpi-topline">
+        <span class="kpi-type">{{ kpiLabel(kpi.tipo) }}</span>
+        <span
+          class="kpi-state"
+          [class.state-positive]="kpi.estado === 'POSITIVO'"
+          [class.state-negative]="kpi.estado === 'NEGATIVO'"
+          [class.state-neutral]="kpi.estado === 'NEUTRO' || kpi.estado === 'SIN_DATOS'"
+        >
+          {{ kpi.estado }}
+        </span>
+      </div>
+
+      <strong class="kpi-value">{{ kpi.valor | number:'1.0-2' }}</strong>
+      <small class="kpi-periodo">{{ kpi.periodo }}</small>
+      <p class="kpi-description">{{ kpi.descripcion }}</p>
+
+      <div class="kpi-meta">
+        <span>
+          Variacion:
+          <strong [class.state-positive]="variationStateClass(kpi) === 'state-positive'"
+                  [class.state-negative]="variationStateClass(kpi) === 'state-negative'"
+                  [class.state-neutral]="variationStateClass(kpi) === 'state-neutral'">
+            {{ variationLabel(kpi) }}
+          </strong>
+        </span>
+        <span>Fuente: {{ kpi.fuenteDatos }}</span>
+      </div>
+
+      <div class="kpi-details" *ngIf="kpi.detalles && (kpi.detalles | keyvalue).length">
+        <div class="detail-pill" *ngFor="let detail of kpi.detalles | keyvalue">
+          <strong>{{ detail.key }}</strong>
+          <span>{{ detail.value | number:'1.0-2' }}</span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <ng-template #emptyState>
+    <div class="empty-state" *ngIf="!isLoading()">No hay KPIs disponibles para esta pestaña.</div>
+  </ng-template>
+</section>
