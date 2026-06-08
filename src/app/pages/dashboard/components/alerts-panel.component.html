@@ -1,0 +1,114 @@
+<section class="alerts-panel">
+  <div class="panel-header">
+    <div>
+      <span class="section-kicker">Centro de alertas</span>
+      <h3>Alertas almacenadas</h3>
+    </div>
+
+    <div class="header-actions">
+      <button class="button button-secondary" type="button" (click)="loadData()" [disabled]="isLoading()">
+        {{ isLoading() ? 'Actualizando...' : 'Actualizar' }}
+      </button>
+      <button class="button button-primary" type="button" (click)="markAllAsRead()" [disabled]="!totalAlerts() || isSubmitting()">
+        Marcar todas como leídas
+      </button>
+    </div>
+  </div>
+
+  <div class="alerts-summary">
+    <article class="summary-card">
+      <span class="summary-label">Total</span>
+      <strong>{{ totalAlerts() }}</strong>
+      <small>Alertas registradas.</small>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Sin leer</span>
+      <strong>{{ unreadAlerts() }}</strong>
+      <small>Alertas pendientes.</small>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Leídas</span>
+      <strong>{{ readAlerts() }}</strong>
+      <small>Alertas revisadas.</small>
+    </article>
+  </div>
+
+  <p class="feedback feedback-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+  <p class="feedback feedback-success" *ngIf="successMessage()">{{ successMessage() }}</p>
+
+  <div class="filters-grid">
+    <label class="field">
+      <span>Buscar</span>
+      <input
+        type="text"
+        placeholder="Busca por título, detalle o tiempo..."
+        [value]="searchQuery()"
+        (input)="searchQuery.set($any($event.target).value)"
+      />
+    </label>
+
+    <label class="field field-date" (click)="openDatePicker(startDateInput)">
+      <span>Desde</span>
+      <input
+        #startDateInput
+        type="date"
+        class="date-input"
+        [value]="startDate()"
+        (input)="startDate.set($any($event.target).value)"
+      />
+    </label>
+
+    <label class="field field-date" (click)="openDatePicker(endDateInput)">
+      <span>Hasta</span>
+      <input
+        #endDateInput
+        type="date"
+        class="date-input"
+        [value]="endDate()"
+        (input)="endDate.set($any($event.target).value)"
+      />
+    </label>
+
+    <div class="filters-actions">
+      <button class="button button-secondary" type="button" (click)="clearFilters()">Limpiar filtros</button>
+    </div>
+  </div>
+
+  <div class="alerts-card" *ngIf="!isLoading(); else loadingState">
+    <div class="empty-state" *ngIf="!filteredAlerts().length; else alertsList">
+      No hay alertas para mostrar con los filtros actuales.
+    </div>
+
+    <ng-template #alertsList>
+      <div class="alerts-table">
+        <button class="alert-row" type="button" *ngFor="let alert of filteredAlerts()" (click)="markAsRead(alert)">
+          <div class="alert-main">
+            <span class="alert-icon">{{ alert.icono }}</span>
+            <div class="alert-copy">
+              <strong>{{ alert.titulo }}</strong>
+              <small>{{ alert.detalle }}</small>
+            </div>
+          </div>
+
+          <div class="alert-meta">
+            <span class="status-badge" [class.status-ok]="alert.leida" [class.status-warning]="!alert.leida">
+              {{ alert.leida ? 'Leída' : 'Sin leer' }}
+            </span>
+            <small>{{ alert.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</small>
+            <small>{{ alert.tiempoRelativo }}</small>
+          </div>
+
+          <div class="alert-title">
+            <strong>{{ alert.tituloCompleto }}</strong>
+          </div>
+        </button>
+      </div>
+    </ng-template>
+  </div>
+
+  <ng-template #loadingState>
+    <div class="empty-state">Cargando alertas...</div>
+  </ng-template>
+</section>

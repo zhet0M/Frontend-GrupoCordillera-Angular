@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, OnDestroy, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AlertsService } from '../../core/alerts/alerts.service';
+import { AlertNotification } from '../../core/alerts/alerts.models';
 import { AuthService } from '../../core/auth/auth.service';
 import { UserRole, UserSession } from '../../core/auth/auth.models';
 import { UsersAdminPanelComponent } from './components/users-admin-panel.component';
@@ -9,6 +11,7 @@ import { InventoryPanelComponent } from './components/inventory-panel.component'
 import { SalesPanelComponent } from './components/sales-panel.component';
 import { ClientsPanelComponent } from './components/clients-panel.component';
 import { FinancesPanelComponent } from './components/finances-panel.component';
+import { AlertsPanelComponent } from './components/alerts-panel.component';
 import { KpisPanelComponent } from './components/kpis-panel.component';
 
 interface DashboardTab {
@@ -139,17 +142,24 @@ const ROLE_LABELS: Record<UserRole, string> = {
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [CommonModule, UsersAdminPanelComponent, InventoryPanelComponent, SalesPanelComponent, ClientsPanelComponent, FinancesPanelComponent, KpisPanelComponent],
+  imports: [CommonModule, UsersAdminPanelComponent, InventoryPanelComponent, SalesPanelComponent, ClientsPanelComponent, FinancesPanelComponent, AlertsPanelComponent, KpisPanelComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.css',
 })
 export class DashboardPageComponent {
+  private readonly alertsService = inject(AlertsService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly alertsRefreshHandle = window.setInterval(() => this.refreshAlerts(), 15000);
 
   protected readonly session = signal<UserSession | null>(this.authService.getSession());
   protected readonly activeTabId = signal('');
   protected readonly isMobileMenuOpen = signal(false);
+  protected readonly isAlertsOpen = signal(false);
+  protected readonly alerts = signal<AlertNotification[]>([]);
+  protected readonly unreadAlertsCount = signal(0);
+  protected readonly isAlertsLoading = signal(false);
+  protected readonly alertsError = signal('');
 
   protected readonly visibleTabs = computed(() => {
     const role = this.session()?.rol;
@@ -171,6 +181,15 @@ export class DashboardPageComponent {
     return role ? ROLE_LABELS[role] : 'Sin rol';
   });
 
+  protected readonly notificationLabel = computed(() => {
+    const unread = this.unreadAlertsCount();
+    if (unread <= 0) {
+      return '';
+    }
+
+    return unread > 99 ? '+99' : String(unread);
+  });
+
   constructor() {
     effect(() => {
       const tabs = this.visibleTabs();
@@ -185,6 +204,12 @@ export class DashboardPageComponent {
         this.activeTabId.set(tabs[0].id);
       }
     });
+
+    this.refreshAlerts();
+  }
+
+  public ngOnDestroy(): void {
+    window.clearInterval(this.alertsRefreshHandle);
   }
 
   protected selectTab(tabId: string): void {
@@ -196,9 +221,80 @@ export class DashboardPageComponent {
     this.isMobileMenuOpen.update((open) => !open);
   }
 
+  protected toggleAlertsPanel(): void {
+    this.isAlertsOpen.update((open) => !open);
+
+    if (this.isAlertsOpen()) {
+      this.refreshAlerts();
+    }
+  }
+
+  protected closeAlertsPanel(): void {
+    this.isAlertsOpen.set(false);
+  }
+
+  protected openAlert(alert: AlertNotification): void {
+    const targetTab = this.resolveTargetTab(alert.tipo);
+
+    if (targetTab) {
+      this.selectTab(targetTab);
+    }
+
+    this.closeAlertsPanel();
+    this.markAlertAsRead(alert.id);
+  }
+
+  protected markAllAlertsAsRead(): void {
+    this.alertsService.markAllAsRead().subscribe({
+      next: () => this.refreshAlerts(),
+      error: (error: Error) => {
+        this.alertsError.set(error.message);
+      },
+    });
+  }
+
   protected logout(): void {
     this.authService.clearSession();
     this.session.set(null);
     void this.router.navigate(['/login']);
+  }
+
+  private refreshAlerts(): void {
+    this.isAlertsLoading.set(true);
+    this.alertsError.set('');
+
+    this.alertsService.getSummary().subscribe({
+      next: (summary) => {
+        this.unreadAlertsCount.set(summary.noLeidas);
+        this.alerts.set(summary.alertas);
+        this.isAlertsLoading.set(false);
+      },
+      error: (error: Error) => {
+        this.alertsError.set(error.message);
+        this.isAlertsLoading.set(false);
+      },
+    });
+  }
+
+  private markAlertAsRead(id: number): void {
+    this.alertsService.markAsRead(id).subscribe({
+      next: () => this.refreshAlerts(),
+      error: (error: Error) => {
+        this.alertsError.set(error.message);
+      },
+    });
+  }
+
+  private resolveTargetTab(type: string): string | null {
+    switch (type) {
+      case 'STOCK_CRITICO':
+        return 'inventario';
+      case 'VENTAS_BAJAS':
+        return 'ventas';
+      case 'MARGEN_NORMALIZADO':
+        return 'finanzas';
+      default:
+        return 'resumen';
+    }
   }
 }

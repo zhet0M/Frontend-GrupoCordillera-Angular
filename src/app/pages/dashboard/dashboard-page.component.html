@@ -20,6 +20,62 @@
     </div>
 
     <div class="header-actions">
+      <div class="notifications-wrapper">
+        <button
+          class="notification-button"
+          type="button"
+          (click)="toggleAlertsPanel()"
+          [attr.aria-expanded]="isAlertsOpen()"
+          aria-label="Abrir notificaciones"
+        >
+          <img src="icons/anillo-de-campana.png" alt="Notificaciones" class="notification-icon" />
+          <span class="notification-badge" *ngIf="notificationLabel()">{{ notificationLabel() }}</span>
+        </button>
+
+        <section class="notification-panel" *ngIf="isAlertsOpen()">
+          <div class="notification-panel-header">
+            <div>
+              <span class="section-kicker">Notificaciones</span>
+              <h2>Alertas activas</h2>
+            </div>
+
+            <button class="notification-close" type="button" (click)="closeAlertsPanel()">×</button>
+          </div>
+
+          <p class="feedback feedback-error" *ngIf="alertsError()">{{ alertsError() }}</p>
+
+          <div class="notification-summary">
+            <strong>{{ unreadAlertsCount() }}</strong>
+            <span>sin revisar</span>
+          </div>
+
+          <div class="notification-actions">
+            <button class="button button-secondary" type="button" (click)="markAllAlertsAsRead()" [disabled]="!alerts().length || isAlertsLoading()">
+              Marcar todas como leídas
+            </button>
+          </div>
+
+          <div class="notification-list" *ngIf="alerts().length; else emptyAlerts">
+            <button
+              class="notification-item"
+              type="button"
+              *ngFor="let alert of alerts()"
+              (click)="openAlert(alert)"
+            >
+              <span class="notification-item-icon">{{ alert.icono }}</span>
+              <span class="notification-item-copy">
+                <strong>{{ alert.tituloCompleto }}</strong>
+                <small>{{ alert.tiempoRelativo }}</small>
+              </span>
+            </button>
+          </div>
+
+          <ng-template #emptyAlerts>
+            <div class="empty-state">No hay alertas pendientes.</div>
+          </ng-template>
+        </section>
+      </div>
+
       <div class="identity-card">
         <span class="identity-label">Rol actual</span>
         <strong>{{ displayRole() }}</strong>
@@ -89,9 +145,10 @@
       <app-sales-panel *ngIf="tab.id === 'ventas'" />
       <app-clients-panel *ngIf="tab.id === 'clientes'" />
       <app-finances-panel *ngIf="tab.id === 'finanzas'" />
+      <app-alerts-panel *ngIf="tab.id === 'alertas'" />
       <app-kpis-panel *ngIf="tab.id === 'kpis'" />
 
-      <section class="detail-grid" *ngIf="tab.id !== 'usuarios' && tab.id !== 'inventario' && tab.id !== 'ventas' && tab.id !== 'clientes' && tab.id !== 'finanzas' && tab.id !== 'kpis'">
+      <section class="detail-grid" *ngIf="tab.id !== 'usuarios' && tab.id !== 'inventario' && tab.id !== 'ventas' && tab.id !== 'clientes' && tab.id !== 'finanzas' && tab.id !== 'alertas' && tab.id !== 'kpis'">
         <article class="detail-card">
           <span class="detail-label">Resumen</span>
           <strong>{{ tab.summary }}</strong>
