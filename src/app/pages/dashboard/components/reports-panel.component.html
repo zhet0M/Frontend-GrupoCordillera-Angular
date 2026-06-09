@@ -1,0 +1,81 @@
+<section class="reports-panel">
+  <div class="reports-header">
+    <div>
+      <span class="section-kicker">Generación de reportes</span>
+      <h3>Reportes PDF</h3>
+      <p>Descarga reportes operativos de ventas, inventario y finanzas desde el microservicio.</p>
+    </div>
+  </div>
+
+  <p class="feedback feedback-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+  <p class="feedback feedback-success" *ngIf="message()">{{ message() }}</p>
+
+  <div class="reports-grid">
+    <article class="report-card">
+      <div class="report-card-head">
+        <div>
+          <span class="report-tag">Ventas</span>
+          <h4>Reporte PDF de Ventas</h4>
+        </div>
+      </div>
+
+      <div class="date-row">
+        <label class="field field-date" (click)="openDatePicker(salesStartInput)">
+          <span>Desde</span>
+          <input #salesStartInput type="date" [value]="salesStartDate()" (input)="salesStartDate.set($any($event.target).value)" />
+        </label>
+
+        <label class="field field-date" (click)="openDatePicker(salesEndInput)">
+          <span>Hasta</span>
+          <input #salesEndInput type="date" [value]="salesEndDate()" (input)="salesEndDate.set($any($event.target).value)" />
+        </label>
+      </div>
+
+      <div class="actions-row">
+        <button class="button button-secondary" type="button" (click)="clearSalesDates()">Limpiar filtro</button>
+        <button class="button button-primary" type="button" (click)="generateSalesReport()" [disabled]="isGenerating()">Generar PDF</button>
+      </div>
+    </article>
+
+    <article class="report-card">
+      <div class="report-card-head">
+        <div>
+          <span class="report-tag">Inventario</span>
+          <h4>Reporte PDF de Inventario</h4>
+        </div>
+      </div>
+
+      <p class="report-description">Genera el inventario completo con stock crítico destacado.</p>
+
+      <div class="actions-row single-action">
+        <button class="button button-primary" type="button" (click)="generateInventoryReport()" [disabled]="isGenerating()">Generar PDF</button>
+      </div>
+    </article>
+
+    <article class="report-card">
+      <div class="report-card-head">
+        <div>
+          <span class="report-tag">Finanzas</span>
+          <h4>Reporte PDF de Finanzas</h4>
+        </div>
+      </div>
+
+      <div class="date-row">
+        <label class="field field-date" (click)="openDatePicker(financeStartInput)">
+          <span>Desde</span>
+          <input #financeStartInput type="date" [value]="financeStartDate()" (input)="financeStartDate.set($any($event.target).value)" />
+        </label>
+
+        <label class="field field-date" (click)="openDatePicker(financeEndInput)">
+          <span>Hasta</span>
+          <input #financeEndInput type="date" [value]="financeEndDate()" (input)="financeEndDate.set($any($event.target).value)" />
+        </label>
+      </div>
+
+      <div class="actions-row">
+        <button class="button button-secondary" type="button" (click)="clearFinanceDates()">Limpiar filtro</button>
+        <button class="button button-primary" type="button" (click)="generateFinanceReport()" [disabled]="isGenerating()">Generar PDF</button>
+      </div>
+    </article>
+  </div>
+</section>

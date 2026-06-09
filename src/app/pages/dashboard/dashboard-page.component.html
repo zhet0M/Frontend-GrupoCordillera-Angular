@@ -146,9 +146,10 @@
       <app-clients-panel *ngIf="tab.id === 'clientes'" />
       <app-finances-panel *ngIf="tab.id === 'finanzas'" />
       <app-alerts-panel *ngIf="tab.id === 'alertas'" />
+      <app-reports-panel *ngIf="tab.id === 'reportes'" />
       <app-kpis-panel *ngIf="tab.id === 'kpis'" />
 
-      <section class="detail-grid" *ngIf="tab.id !== 'usuarios' && tab.id !== 'inventario' && tab.id !== 'ventas' && tab.id !== 'clientes' && tab.id !== 'finanzas' && tab.id !== 'alertas' && tab.id !== 'kpis'">
+      <section class="detail-grid" *ngIf="tab.id !== 'usuarios' && tab.id !== 'inventario' && tab.id !== 'ventas' && tab.id !== 'clientes' && tab.id !== 'finanzas' && tab.id !== 'alertas' && tab.id !== 'reportes' && tab.id !== 'kpis'">
         <article class="detail-card">
           <span class="detail-label">Resumen</span>
           <strong>{{ tab.summary }}</strong>
