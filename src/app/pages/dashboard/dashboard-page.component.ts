@@ -12,6 +12,7 @@ import { SalesPanelComponent } from './components/sales-panel.component';
 import { ClientsPanelComponent } from './components/clients-panel.component';
 import { FinancesPanelComponent } from './components/finances-panel.component';
 import { AlertsPanelComponent } from './components/alerts-panel.component';
+import { ReportsPanelComponent } from './components/reports-panel.component';
 import { KpisPanelComponent } from './components/kpis-panel.component';
 
 interface DashboardTab {
@@ -142,7 +143,7 @@ const ROLE_LABELS: Record<UserRole, string> = {
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [CommonModule, UsersAdminPanelComponent, InventoryPanelComponent, SalesPanelComponent, ClientsPanelComponent, FinancesPanelComponent, AlertsPanelComponent, KpisPanelComponent],
+  imports: [CommonModule, UsersAdminPanelComponent, InventoryPanelComponent, SalesPanelComponent, ClientsPanelComponent, FinancesPanelComponent, AlertsPanelComponent, ReportsPanelComponent, KpisPanelComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.css',
 })

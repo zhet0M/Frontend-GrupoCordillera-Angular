@@ -1,0 +1,189 @@
+.reports-panel {
+  display: grid;
+  gap: 24px;
+}
+
+.reports-header h3 {
+  margin: 10px 0 8px;
+  font-size: 1.6rem;
+  color: var(--app-text);
+}
+
+.reports-header p,
+.report-description {
+  margin: 0;
+  color: var(--app-text-soft);
+  line-height: 1.65;
+}
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.report-card {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border: 1px solid var(--app-border);
+  border-radius: 24px;
+  background: linear-gradient(180deg, var(--app-surface) 0%, var(--app-surface-2) 100%);
+  box-shadow: var(--app-shadow);
+}
+
+.report-card h4 {
+  margin: 8px 0 0;
+  font-size: 1.15rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.button-primary {
+  background: linear-gradient(135deg, #1ed6bc 0%, #15999b 100%);
+  color: #03111f;
+  box-shadow: 0 12px 30px rgba(30, 214, 188, 0.22);
+}
+
+.button-secondary {
+  border-color: rgba(156, 175, 202, 0.18);
+  background: rgba(10, 16, 29, 0.72);
+  color: #eef5ff;
+}
+
+.button-secondary:hover:not(:disabled) {
+  border-color: rgba(40, 212, 188, 0.45);
+  box-shadow: 0 10px 24px rgba(3, 9, 20, 0.34);
+}
+
+.report-tag,
+.section-kicker {
+  display: inline-flex;
+  width: fit-content;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(40, 212, 188, 0.24);
+  background: var(--app-surface-2);
+  color: var(--app-accent-strong);
+  font-size: 0.82rem;
+}
+
+.date-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field span {
+  color: var(--app-text-muted);
+  font-size: 0.85rem;
+}
+
+.field input {
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--app-border-strong);
+  border-radius: 16px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  outline: none;
+}
+
+.field-date {
+  cursor: pointer;
+}
+
+.field input[type='date'] {
+  color-scheme: dark;
+  cursor: pointer;
+}
+
+.field input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(1) brightness(1.35);
+  opacity: 0.95;
+}
+
+.field input[type='date']::-webkit-datetime-edit,
+.field input[type='date']::-webkit-datetime-edit-text,
+.field input[type='date']::-webkit-datetime-edit-day-field,
+.field input[type='date']::-webkit-datetime-edit-month-field,
+.field input[type='date']::-webkit-datetime-edit-year-field {
+  color: var(--app-text);
+}
+
+.field input:focus {
+  border-color: rgba(40, 212, 188, 0.46);
+  box-shadow: 0 0 0 4px rgba(30, 214, 188, 0.08);
+}
+
+.actions-row {
+  display: flex;
+  gap: 12px;
+}
+
+.actions-row .button {
+  flex: 1;
+}
+
+.single-action .button {
+  flex: 1;
+}
+
+.feedback {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 16px;
+}
+
+.feedback-error {
+  border: 1px solid rgba(255, 124, 124, 0.22);
+  background: rgba(89, 25, 25, 0.35);
+  color: #ffd2d2;
+}
+
+.feedback-success {
+  border: 1px solid rgba(30, 214, 188, 0.3);
+  background: rgba(10, 16, 29, 0.9);
+  color: #d6fffb;
+  box-shadow: 0 10px 24px rgba(3, 9, 20, 0.22);
+}
+
+@media (max-width: 1080px) {
+  .reports-grid,
+  .date-row,
+  .actions-row {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+}
