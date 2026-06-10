@@ -3,6 +3,8 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 
+import { BRANCH_OPTIONS } from '../../../core/branches/branches.models';
+import { allowedBranchValidator } from '../../../core/branches/branches.validators';
 import { AuthService } from '../../../core/auth/auth.service';
 import { InventoryService } from '../../../core/inventory/inventory.service';
 import { Product, ProductCategory } from '../../../core/inventory/inventory.models';
@@ -18,6 +20,7 @@ export class InventoryPanelComponent {
   private readonly authService = inject(AuthService);
   private readonly fb = inject(FormBuilder);
 
+  protected readonly branchOptions = BRANCH_OPTIONS;
   protected readonly products = signal<Product[]>([]);
   protected readonly isLoading = signal(true);
   protected readonly isSubmitting = signal(false);
@@ -51,7 +54,7 @@ export class InventoryPanelComponent {
 
   protected readonly productForm = this.fb.group({
     id: [null as number | null],
-    sku: ['', [Validators.required]],
+    sku: [''],
     nombre: ['', [Validators.required]],
     descripcion: [''],
     categoria: ['TECNOLOGIA' as ProductCategory, [Validators.required]],
@@ -61,7 +64,7 @@ export class InventoryPanelComponent {
     costo: [0, [Validators.required, Validators.min(0)]],
     stock: [0, [Validators.required, Validators.min(0)]],
     stockMinimo: [0, [Validators.required, Validators.min(0)]],
-    sucursal: ['', [Validators.required]],
+    sucursal: ['', [Validators.required, allowedBranchValidator()]],
     estado: ['DISPONIBLE'],
     // specific fields
     mesesGarantia: [null as number | null],
@@ -103,6 +106,7 @@ export class InventoryPanelComponent {
   protected openNewProductForm(): void {
     this.editingProduct.set(null);
     this.productForm.reset({
+      sku: '',
       categoria: 'TECNOLOGIA',
       precio: 0,
       costo: 0,
@@ -117,7 +121,7 @@ export class InventoryPanelComponent {
 
   protected openEditForm(product: Product): void {
     this.editingProduct.set(product);
-    
+
     this.productForm.patchValue({
       id: product.id,
       sku: product.sku,
@@ -145,6 +149,15 @@ export class InventoryPanelComponent {
 
   protected closeForm(): void {
     this.showForm.set(false);
+  }
+
+  protected showSkuField(): boolean {
+    return this.editingProduct() !== null;
+  }
+
+  protected hasAllowedBranchError(): boolean {
+    const field = this.productForm.get('sucursal');
+    return !!field && field.hasError('allowedBranch') && (field.dirty || field.touched);
   }
 
   protected submitForm(): void {
