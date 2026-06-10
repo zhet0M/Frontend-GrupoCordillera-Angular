@@ -14,6 +14,7 @@ import { UserSession } from '../../core/auth/auth.models';
   styleUrl: './login-page.component.css',
 })
 export class LoginPageComponent {
+  private readonly corporateEmailPattern = /^[^\s@]+@grupocordillera\.com$/i;
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
@@ -25,7 +26,7 @@ export class LoginPageComponent {
   protected readonly isAuthenticated = computed(() => this.session() !== null);
 
   protected readonly loginForm = this.fb.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email, Validators.pattern(this.corporateEmailPattern)]],
     password: ['', [Validators.required, Validators.minLength(4)]],
   });
 
@@ -73,5 +74,10 @@ export class LoginPageComponent {
   protected hasFieldError(fieldName: 'email' | 'password'): boolean {
     const field = this.loginForm.controls[fieldName];
     return field.invalid && (field.dirty || field.touched);
+  }
+
+  protected isCorporateEmailError(): boolean {
+    const field = this.loginForm.controls.email;
+    return field.hasError('pattern') && (field.dirty || field.touched);
   }
 }

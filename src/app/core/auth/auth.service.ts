@@ -11,6 +11,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = 'http://localhost:8080/auth';
   private readonly storageKey = 'grupo-cordillera-session';
+  private readonly invalidCredentialsMessage = 'Correo o contraseña incorrectos';
 
   login(payload: LoginRequest): Observable<LoginResponse> {
     return this.http
@@ -62,6 +63,10 @@ export class AuthService {
 
   private extractErrorMessage(error: unknown): string {
     if (error instanceof HttpErrorResponse) {
+      if (error.status === 401) {
+        return this.invalidCredentialsMessage;
+      }
+
       if (typeof error.error === 'string' && error.error.trim()) {
         return error.error;
       }

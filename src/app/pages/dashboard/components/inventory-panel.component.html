@@ -44,10 +44,19 @@
 
     <form [formGroup]="productForm" (ngSubmit)="submitForm()" class="product-form">
       <div class="form-grid">
-        <label class="field">
+        <label class="field" *ngIf="showSkuField(); else autoSkuInfo">
           <span>SKU *</span>
-          <input type="text" formControlName="sku" placeholder="Ej. TEC-001" [readOnly]="editingProduct() !== null" />
+          <input type="text" formControlName="sku" readonly style="text-transform: uppercase;" />
         </label>
+
+        <ng-template #autoSkuInfo>
+          <div class="field full-width">
+            <span>SKU</span>
+            <div class="sku-feedback sku-feedback-success">
+              Se generará automáticamente al guardar, según la categoría seleccionada.
+            </div>
+          </div>
+        </ng-template>
 
         <label class="field">
           <span>Nombre *</span>
@@ -64,7 +73,13 @@
 
         <label class="field">
           <span>Sucursal *</span>
-          <input type="text" formControlName="sucursal" placeholder="Ej. SUC-CENTRAL" />
+          <select formControlName="sucursal">
+            <option value="" disabled>Selecciona una sucursal</option>
+            <option *ngFor="let branch of branchOptions" [value]="branch">{{ branch }}</option>
+          </select>
+          <small *ngIf="hasAllowedBranchError()">
+            Selecciona una sucursal válida.
+          </small>
         </label>
 
         <label class="field">

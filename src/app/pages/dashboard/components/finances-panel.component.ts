@@ -1,11 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
+import { debounceTime } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import { BRANCH_OPTIONS } from '../../../core/branches/branches.models';
+import { allowedBranchValidator } from '../../../core/branches/branches.validators';
 import { AuthService } from '../../../core/auth/auth.service';
 import { FinancesService } from '../../../core/finances/finances.service';
 import { FinanceTransaction, FinanceTransactionRequest, FinanceSummary, TransactionType } from '../../../core/finances/finances.models';
+import { normalizeSku } from '../../../core/sku/sku.utils';
 
 @Component({
   selector: 'app-finances-panel',
@@ -14,10 +19,12 @@ import { FinanceTransaction, FinanceTransactionRequest, FinanceSummary, Transact
   styleUrl: './finances-panel.component.css',
 })
 export class FinancesPanelComponent {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly financesService = inject(FinancesService);
   private readonly authService = inject(AuthService);
   private readonly fb = inject(FormBuilder);
 
+  protected readonly branchOptions = BRANCH_OPTIONS;
   protected readonly transactions = signal<FinanceTransaction[]>([]);
   protected readonly summary = signal<FinanceSummary>({ ingresos: 0, costo: 0, margen: 0 });
   
@@ -52,7 +59,7 @@ export class FinancesPanelComponent {
   });
 
   protected readonly transactionForm = this.fb.group({
-    sucursal: ['', [Validators.required]],
+    sucursal: ['', [Validators.required, allowedBranchValidator()]],
     skuProducto: ['', [Validators.required]],
     cantidad: [1, [Validators.required, Validators.min(1)]],
     ingresos: [0, [Validators.required, Validators.min(0)]],
@@ -65,6 +72,17 @@ export class FinancesPanelComponent {
 
   constructor() {
     this.loadData();
+
+    this.transactionForm.get('skuProducto')?.valueChanges
+      .pipe(debounceTime(150), takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        const normalized = normalizeSku(value);
+        const control = this.transactionForm.get('skuProducto');
+
+        if (control && control.value !== normalized) {
+          control.setValue(normalized, { emitEvent: false });
+        }
+      });
   }
 
   protected loadData(): void {
@@ -110,6 +128,11 @@ export class FinancesPanelComponent {
 
   protected closeForm(): void {
     this.showForm.set(false);
+  }
+
+  protected hasAllowedBranchError(): boolean {
+    const field = this.transactionForm.get('sucursal');
+    return !!field && field.hasError('allowedBranch') && (field.dirty || field.touched);
   }
 
   protected submitForm(): void {

@@ -66,12 +66,18 @@
       <div class="form-grid">
         <label class="field">
           <span>Sucursal *</span>
-          <input type="text" formControlName="sucursal" placeholder="Ej. SUC-CENTRAL" />
+          <select formControlName="sucursal">
+            <option value="" disabled>Selecciona una sucursal</option>
+            <option *ngFor="let branch of branchOptions" [value]="branch">{{ branch }}</option>
+          </select>
+          <small *ngIf="hasAllowedBranchError()">
+            Selecciona una sucursal válida.
+          </small>
         </label>
         
         <label class="field">
           <span>SKU del Producto *</span>
-          <input type="text" formControlName="skuProducto" placeholder="Ej. TEC-001" />
+          <input type="text" formControlName="skuProducto" placeholder="Ej. TEC-001" style="text-transform: uppercase;" />
         </label>
 
         <label class="field">

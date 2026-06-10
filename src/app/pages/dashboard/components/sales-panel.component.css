@@ -166,10 +166,51 @@
   transition: all 180ms ease;
 }
 
+.field input.field-invalid,
+.field select.field-invalid {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.12);
+}
+
 .field input:focus,
 .field select:focus {
   border-color: #28d4bc;
   box-shadow: 0 0 0 3px rgba(40, 212, 188, 0.1);
+}
+
+.field small,
+.field-feedback {
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+.field small {
+  color: #ff8f8f;
+}
+
+.field-feedback {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+}
+
+.field-feedback-loading {
+  background: rgba(40, 212, 188, 0.08);
+  border-color: rgba(40, 212, 188, 0.18);
+  color: var(--app-text);
+}
+
+.field-feedback-error {
+  background: rgba(255, 107, 107, 0.08);
+  border-color: rgba(255, 107, 107, 0.22);
+  color: #ffb5b5;
+}
+
+.field-feedback-success {
+  background: rgba(40, 212, 188, 0.08);
+  border-color: rgba(40, 212, 188, 0.22);
+  color: var(--app-accent-strong);
 }
 
 .info-note {

@@ -41,7 +41,10 @@
             placeholder="usuario@grupocordillera.com"
             autocomplete="email"
           />
-          <small *ngIf="hasFieldError('email')">
+          <small *ngIf="isCorporateEmailError()">
+            Usa un correo corporativo con dominio @grupocordillera.com.
+          </small>
+          <small *ngIf="hasFieldError('email') && !isCorporateEmailError()">
             Ingresa un correo valido.
           </small>
         </label>

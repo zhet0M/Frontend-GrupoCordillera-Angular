@@ -13,6 +13,7 @@ import { AuthService } from '../../core/auth/auth.service';
   styleUrl: './register-page.component.css',
 })
 export class RegisterPageComponent {
+  private readonly corporateEmailPattern = /^[^\s@]+@grupocordillera\.com$/i;
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
 
@@ -23,7 +24,7 @@ export class RegisterPageComponent {
 
   protected readonly registerForm = this.fb.nonNullable.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email, Validators.pattern(this.corporateEmailPattern)]],
     password: ['', [Validators.required, Validators.minLength(4)]],
   });
 
@@ -55,5 +56,10 @@ export class RegisterPageComponent {
   protected hasFieldError(fieldName: 'username' | 'email' | 'password'): boolean {
     const field = this.registerForm.controls[fieldName];
     return field.invalid && (field.dirty || field.touched);
+  }
+
+  protected isCorporateEmailError(): boolean {
+    const field = this.registerForm.controls.email;
+    return field.hasError('pattern') && (field.dirty || field.touched);
   }
 }
