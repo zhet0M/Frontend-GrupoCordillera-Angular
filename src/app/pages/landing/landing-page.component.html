@@ -81,58 +81,75 @@
         <div class="panel-heading">
           <div>
             <p class="eyebrow">Preview de interfaz</p>
-            <h2>Panel referencial</h2>
+            <h2>Dashboard de Metabase</h2>
           </div>
-          <span class="status-pill">Datos demo</span>
+          <span class="status-pill" [class.status-pill-live]="metabaseConfigured">
+            {{ metabaseConfigured ? 'Metabase conectado' : 'Pendiente de URL' }}
+          </span>
         </div>
 
         <div class="metric-strip">
           <article>
-            <strong>API</strong>
-            <span>Conexion futura</span>
+            <strong>DB</strong>
+            <span>Fuente analitica</span>
           </article>
           <article>
             <strong>KPIs</strong>
-            <span>Modulo pendiente</span>
+            <span>Dashboard real</span>
           </article>
           <article>
-            <strong>UI</strong>
-            <span>Vista temporal</span>
+            <strong>Embed</strong>
+            <span>Vista interactiva</span>
           </article>
         </div>
 
-        <div class="chart-card">
+        <div class="chart-card metabase-card">
           <div class="chart-header">
-            <span>Comportamiento visual de ejemplo</span>
-            <span class="chart-trend">Se reemplaza con API</span>
+            <span>Panel operativo en vivo</span>
+            <span class="chart-trend">Metabase</span>
           </div>
-          <p class="chart-note">
-            Este bloque es una demo por el momento, hasta que exista la conexion.
-          </p>
-          <div class="chart-bars" aria-hidden="true">
-            <span style="--bar-size: 42%"></span>
-            <span style="--bar-size: 58%"></span>
-            <span style="--bar-size: 65%"></span>
-            <span style="--bar-size: 54%"></span>
-            <span style="--bar-size: 76%"></span>
-            <span style="--bar-size: 88%"></span>
-            <span style="--bar-size: 72%"></span>
+          <div class="metabase-frame" *ngIf="metabaseConfigured && metabaseEmbedUrl; else metabaseSetup">
+            <div class="metabase-frame-bar">
+              <span></span>
+              <span></span>
+              <span></span>
+              <small>Ingresos vs Costo vs Margen</small>
+            </div>
+            <iframe
+              class="metabase-iframe"
+              [src]="metabaseEmbedUrl"
+              title="Dashboard de Metabase"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+            ></iframe>
           </div>
+          <ng-template #metabaseSetup>
+            <div class="metabase-placeholder">
+              <p class="chart-note">
+                Configura la URL publica del dashboard en `src/app/core/config/metabase.config.ts`.
+              </p>
+              <ul>
+                <li>Levanta Metabase con Docker.</li>
+                <li>Crea un dashboard publicable.</li>
+                <li>Pega su URL publica en la config.</li>
+              </ul>
+            </div>
+          </ng-template>
         </div>
       </div>
 
       <div class="panel-floating panel-floating-top">
         <span class="floating-label">Estado</span>
-        <strong>Modo demo</strong>
-        <small>Sin datos reales conectados aun</small>
+        <strong>{{ metabaseConfigured ? 'Datos reales' : 'Pendiente de Metabase' }}</strong>
+        <small>
+          {{ metabaseConfigured ? 'Dashboard embebido desde Metabase' : 'Falta configurar la URL publica' }}
+        </small>
       </div>
 
       <div class="panel-floating panel-floating-bottom">
         <span class="floating-label">Backlog tecnico</span>
         <div class="tag-row">
-          <span>Auth</span>
-          <span>KPIs</span>
-          <span>Reportes</span>
+          <span>Finanzas</span>
         </div>
       </div>
     </div>
