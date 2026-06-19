@@ -3,13 +3,13 @@
 
 &lt;div align="center"&gt;
   &lt;p&gt;
-    &lt;strong&gt;Interfaz de usuario moderna y responsiva para la gestión integral de Grupo Cordillera.&lt;/strong&gt;
+    &lt;strong&gt;Backend empresarial basado en microservicios para la gestión integral de Grupo Cordillera.&lt;/strong&gt;
   &lt;/p&gt;
   &lt;p&gt;
-    &lt;a href="#-tecnologías-utilizadas"&gt;&lt;img alt="Angular 21" src="https://img.shields.io/badge/Angular-21-DD0031?style=flat-square&amp;logo=angular"&gt;&lt;/a&gt;
-    &lt;a href="#-tecnologías-utilizadas"&gt;&lt;img alt="Angular Material 21" src="https://img.shields.io/badge/Angular%20Material-21-009688?style=flat-square&amp;logo=angular"&gt;&lt;/a&gt;
-    &lt;a href="#-tecnologías-utilizadas"&gt;&lt;img alt="TypeScript 5.9" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&amp;logo=typescript"&gt;&lt;/a&gt;
-    &lt;a href="#-tecnologías-utilizadas"&gt;&lt;img alt="Vitest 4.0" src="https://img.shields.io/badge/Vitest-4.0-729B1B?style=flat-square&amp;logo=vitest"&gt;&lt;/a&gt;
+    &lt;img alt="Java 17" src="https://img.shields.io/badge/Java-17-007396?style=for-the-badge&amp;logo=oracle"&gt;
+    &lt;img alt="Spring Boot 4.0.6" src="https://img.shields.io/badge/Spring_Boot-4.0.6-6DB33F?style=for-the-badge&amp;logo=spring"&gt;
+    &lt;img alt="PostgreSQL 15" src="https://img.shields.io/badge/PostgreSQL-15-4169E1?style=for-the-badge&amp;logo=postgresql"&gt;
+    &lt;img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&amp;logo=docker&amp;logoColor=white"&gt;
   &lt;/p&gt;
 &lt;/div&gt;
 
