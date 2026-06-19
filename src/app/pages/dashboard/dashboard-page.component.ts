@@ -8,14 +8,14 @@ import { AlertNotification } from '../../core/alerts/alerts.models';
 import { AuthService } from '../../core/auth/auth.service';
 import { UserRole, UserSession } from '../../core/auth/auth.models';
 import { METABASE_EMBED_URL, SALES_METABASE_EMBED_URL, STOCK_METABASE_EMBED_URL } from '../../core/config/metabase.config';
-import { UsersAdminPanelComponent } from './components/users-admin-panel.component';
-import { InventoryPanelComponent } from './components/inventory-panel.component';
-import { SalesPanelComponent } from './components/sales-panel.component';
-import { ClientsPanelComponent } from './components/clients-panel.component';
-import { FinancesPanelComponent } from './components/finances-panel.component';
-import { AlertsPanelComponent } from './components/alerts-panel.component';
-import { ReportsPanelComponent } from './components/reports-panel.component';
-import { KpisPanelComponent } from './components/kpis-panel.component';
+import { UsersAdminPanelComponent } from './components/usuarios-admin/users-admin-panel.component';
+import { InventoryPanelComponent } from './components/inventario/inventory-panel.component';
+import { SalesPanelComponent } from './components/ventas/sales-panel.component';
+import { ClientsPanelComponent } from './components/clientes/clients-panel.component';
+import { FinancesPanelComponent } from './components/finanzas/finances-panel.component';
+import { AlertsPanelComponent } from './components/alertas/alerts-panel.component';
+import { ReportsPanelComponent } from './components/reportes/reports-panel.component';
+import { KpisPanelComponent } from './components/kpis/kpis-panel.component';
 
 interface DashboardTab {
   id: string;

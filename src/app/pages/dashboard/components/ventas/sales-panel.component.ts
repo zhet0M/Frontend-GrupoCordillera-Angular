@@ -5,14 +5,14 @@ import { finalize } from 'rxjs';
 import { debounceTime } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { BRANCH_OPTIONS, isAllowedBranch } from '../../../core/branches/branches.models';
-import { allowedBranchValidator } from '../../../core/branches/branches.validators';
-import { AuthService } from '../../../core/auth/auth.service';
-import { ClientsService } from '../../../core/clients/clients.service';
-import { InventoryService } from '../../../core/inventory/inventory.service';
-import { SalesService } from '../../../core/sales/sales.service';
-import { Sale, SaleChannel, SaleCreateRequest } from '../../../core/sales/sales.models';
-import { hasAllowedSkuFormat, normalizeSku } from '../../../core/sku/sku.utils';
+import { BRANCH_OPTIONS, isAllowedBranch } from '../../../../core/branches/branches.models';
+import { allowedBranchValidator } from '../../../../core/branches/branches.validators';
+import { AuthService } from '../../../../core/auth/auth.service';
+import { ClientsService } from '../../../../core/clients/clients.service';
+import { InventoryService } from '../../../../core/inventory/inventory.service';
+import { SalesService } from '../../../../core/sales/sales.service';
+import { Sale, SaleChannel, SaleCreateRequest } from '../../../../core/sales/sales.models';
+import { hasAllowedSkuFormat, normalizeSku } from '../../../../core/sku/sku.utils';
 
 @Component({
   selector: 'app-sales-panel',

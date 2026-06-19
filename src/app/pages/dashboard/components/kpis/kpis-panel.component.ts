@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 
-import { KpisService } from '../../../core/kpis/kpis.service';
-import { KpiResult } from '../../../core/kpis/kpis.models';
+import { KpisService } from '../../../../core/kpis/kpis.service';
+import { KpiResult } from '../../../../core/kpis/kpis.models';
 
 type KpiDomainTabId = 'resumen' | 'ventas' | 'inventario' | 'finanzas' | 'clientes';
 

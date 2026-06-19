@@ -3,9 +3,9 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 
-import { AuthService } from '../../../core/auth/auth.service';
-import { ClientsService } from '../../../core/clients/clients.service';
-import { Client, ClientRequest, ClientType, ClientState } from '../../../core/clients/clients.models';
+import { AuthService } from '../../../../core/auth/auth.service';
+import { ClientsService } from '../../../../core/clients/clients.service';
+import { Client, ClientRequest, ClientType, ClientState } from '../../../../core/clients/clients.models';
 
 @Component({
   selector: 'app-clients-panel',
