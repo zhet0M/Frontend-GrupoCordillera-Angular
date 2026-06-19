@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { Observable, finalize } from 'rxjs';
 
-import { ReportsService } from '../../../core/reports/reports.service';
+import { ReportsService } from '../../../../core/reports/reports.service';
 
 @Component({
   selector: 'app-reports-panel',

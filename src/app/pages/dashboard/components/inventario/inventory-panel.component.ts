@@ -3,11 +3,11 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 
-import { BRANCH_OPTIONS } from '../../../core/branches/branches.models';
-import { allowedBranchValidator } from '../../../core/branches/branches.validators';
-import { AuthService } from '../../../core/auth/auth.service';
-import { InventoryService } from '../../../core/inventory/inventory.service';
-import { Product, ProductCategory } from '../../../core/inventory/inventory.models';
+import { BRANCH_OPTIONS } from '../../../../core/branches/branches.models';
+import { allowedBranchValidator } from '../../../../core/branches/branches.validators';
+import { AuthService } from '../../../../core/auth/auth.service';
+import { InventoryService } from '../../../../core/inventory/inventory.service';
+import { Product, ProductCategory } from '../../../../core/inventory/inventory.models';
 
 @Component({
   selector: 'app-inventory-panel',

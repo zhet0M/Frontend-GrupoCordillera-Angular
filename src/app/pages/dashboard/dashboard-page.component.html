@@ -12,11 +12,6 @@
           Tu panel adapta las pestañas visibles segun el rol asignado por el backend.
         </p>
       </div>
-
-      <button class="mobile-menu-btn" (click)="toggleMobileMenu()" aria-label="Alternar menú">
-        <svg *ngIf="!isMobileMenuOpen()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-        <svg *ngIf="isMobileMenuOpen()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </button>
     </div>
 
     <div class="header-actions">
@@ -88,6 +83,11 @@
     </div>
   </header>
 
+  <button class="mobile-menu-btn" type="button" (click)="toggleMobileMenu()" aria-label="Alternar menú">
+    <svg *ngIf="!isMobileMenuOpen()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    <svg *ngIf="isMobileMenuOpen()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+  </button>
+
   <section class="dashboard-overview">
     <article class="overview-card">
       <span class="overview-label">Pestañas habilitadas</span>
@@ -140,6 +140,86 @@
 
       <p class="tab-description">{{ tab.description }}</p>
 
+      <section class="summary-metrics" *ngIf="tab.id === 'resumen'">
+        <article class="summary-metric-card">
+          <div class="summary-metric-head">
+            <div>
+              <span class="summary-metric-label">Finanzas</span>
+              <h3>Ingresos, costos y margen</h3>
+            </div>
+            <span class="summary-metric-chip">Metabase</span>
+          </div>
+
+          <div class="summary-embed" *ngIf="financeMetabaseEmbedUrl && financeMetabaseConfigured; else financeFallback">
+            <iframe
+              class="summary-embed-frame"
+              [src]="financeMetabaseEmbedUrl"
+              title="Grafico de finanzas"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+            ></iframe>
+          </div>
+
+          <ng-template #financeFallback>
+            <div class="summary-embed-placeholder">
+              <p>Configura la URL publica del grafico de finanzas en `metabase.config.ts`.</p>
+            </div>
+          </ng-template>
+        </article>
+
+        <article class="summary-metric-card">
+          <div class="summary-metric-head">
+            <div>
+              <span class="summary-metric-label">Ventas</span>
+              <h3>Ventas por dia</h3>
+            </div>
+            <span class="summary-metric-chip">Metabase</span>
+          </div>
+
+          <div class="summary-embed" *ngIf="salesMetabaseEmbedUrl && salesMetabaseConfigured; else salesFallback">
+            <iframe
+              class="summary-embed-frame"
+              [src]="salesMetabaseEmbedUrl"
+              title="Grafico de ventas por dia"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+            ></iframe>
+          </div>
+
+          <ng-template #salesFallback>
+            <div class="summary-embed-placeholder">
+              <p>Configura la URL publica del grafico de ventas en `metabase.config.ts`.</p>
+            </div>
+          </ng-template>
+        </article>
+
+        <article class="summary-metric-card">
+          <div class="summary-metric-head">
+            <div>
+              <span class="summary-metric-label">Inventario</span>
+              <h3>Stock de productos</h3>
+            </div>
+            <span class="summary-metric-chip">Metabase</span>
+          </div>
+
+          <div class="summary-embed" *ngIf="stockMetabaseEmbedUrl && stockMetabaseConfigured; else stockFallback">
+            <iframe
+              class="summary-embed-frame"
+              [src]="stockMetabaseEmbedUrl"
+              title="Grafico de stock de productos"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+            ></iframe>
+          </div>
+
+          <ng-template #stockFallback>
+            <div class="summary-embed-placeholder">
+              <p>Configura la URL publica del grafico de stock en `metabase.config.ts`.</p>
+            </div>
+          </ng-template>
+        </article>
+      </section>
+
       <app-users-admin-panel *ngIf="tab.id === 'usuarios'" />
       <app-inventory-panel *ngIf="tab.id === 'inventario'" />
       <app-sales-panel *ngIf="tab.id === 'ventas'" />
@@ -149,7 +229,7 @@
       <app-reports-panel *ngIf="tab.id === 'reportes'" />
       <app-kpis-panel *ngIf="tab.id === 'kpis'" />
 
-      <section class="detail-grid" *ngIf="tab.id !== 'usuarios' && tab.id !== 'inventario' && tab.id !== 'ventas' && tab.id !== 'clientes' && tab.id !== 'finanzas' && tab.id !== 'alertas' && tab.id !== 'reportes' && tab.id !== 'kpis'">
+      <section class="detail-grid" *ngIf="tab.id !== 'usuarios' && tab.id !== 'inventario' && tab.id !== 'ventas' && tab.id !== 'clientes' && tab.id !== 'finanzas' && tab.id !== 'alertas' && tab.id !== 'reportes' && tab.id !== 'kpis' && tab.id !== 'resumen'">
         <article class="detail-card">
           <span class="detail-label">Resumen</span>
           <strong>{{ tab.summary }}</strong>

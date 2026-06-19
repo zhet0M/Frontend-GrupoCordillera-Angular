@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { finalize, Observable } from 'rxjs';
 
-import { UserRole } from '../../../core/auth/auth.models';
-import { ManagedUser } from '../../../core/users/user-management.models';
-import { UserManagementService } from '../../../core/users/user-management.service';
+import { UserRole } from '../../../../core/auth/auth.models';
+import { ManagedUser } from '../../../../core/users/user-management.models';
+import { UserManagementService } from '../../../../core/users/user-management.service';
 
-import { AuthService } from '../../../core/auth/auth.service';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 const ROLE_LABELS: Record<UserRole, string> = {
   SUPER_ADMIN: 'Super Admin',

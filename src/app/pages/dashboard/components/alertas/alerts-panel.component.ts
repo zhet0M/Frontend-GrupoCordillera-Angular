@@ -2,8 +2,8 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 
-import { AlertNotification } from '../../../core/alerts/alerts.models';
-import { AlertsService } from '../../../core/alerts/alerts.service';
+import { AlertNotification } from '../../../../core/alerts/alerts.models';
+import { AlertsService } from '../../../../core/alerts/alerts.service';
 
 @Component({
   selector: 'app-alerts-panel',
