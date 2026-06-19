@@ -1,17 +1,12 @@
 
 # 🏔️ Grupo Cordillera - Frontend
 
-&lt;div align="center"&gt;
-  &lt;p&gt;
-    &lt;strong&gt;Interfaz de usuario moderna y responsiva para la gestión integral de Grupo Cordillera.&lt;/strong&gt;
-  &lt;/p&gt;
-  &lt;p&gt;
-    &lt;img alt="Angular 21" src="https://img.shields.io/badge/Angular-21.2.0-DD0031?style=for-the-badge&amp;logo=angular"&gt;
-    &lt;img alt="Angular Material" src="https://img.shields.io/badge/Angular_Material-21.2.10-009688?style=for-the-badge&amp;logo=angular"&gt;
-    &lt;img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9.2-3178C6?style=for-the-badge&amp;logo=typescript"&gt;
-    &lt;img alt="Vitest" src="https://img.shields.io/badge/Vitest-4.0.8-729B1B?style=for-the-badge&amp;logo=vitest"&gt;
-  &lt;/p&gt;
-&lt;/div&gt;
+> **Interfaz de usuario moderna y responsiva para la gestión integral de Grupo Cordillera.**
+
+![Angular 21](https://img.shields.io/badge/Angular-21.2.0-DD0031?style=for-the-badge&logo=angular)
+![Angular Material](https://img.shields.io/badge/Angular_Material-21.2.10-009688?style=for-the-badge&logo=angular)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-3178C6?style=for-the-badge&logo=typescript)
+![Vitest](https://img.shields.io/badge/Vitest-4.0.8-729B1B?style=for-the-badge&logo=vitest)
 
 ---
 
@@ -193,7 +188,10 @@ Asegúrate de que los servicios backend estén ejecutándose para una funcionali
 
 ## 👥 Equipo
 
-Proyecto desarrollado por **Matías Medina**.
+Proyecto desarrollado por el **Equipo Grupo Cordillera**.
 
+---
 
+## 📄 Licencia
 
+Este proyecto es propiedad exclusiva del Grupo Cordillera.
