@@ -6,10 +6,10 @@
     &lt;strong&gt;Interfaz de usuario moderna y responsiva para la gestión integral de Grupo Cordillera.&lt;/strong&gt;
   &lt;/p&gt;
   &lt;p&gt;
-    &lt;a href="#-tecnologías-utilizadas"&gt;&lt;img alt="Angular 21" src="https://img.shields.io/badge/Angular-21-DD0031?style=flat-square&amp;logo=angular"&gt;&lt;/a&gt;
-    &lt;a href="#-tecnologías-utilizadas"&gt;&lt;img alt="Angular Material 21" src="https://img.shields.io/badge/Angular%20Material-21-009688?style=flat-square&amp;logo=angular"&gt;&lt;/a&gt;
-    &lt;a href="#-tecnologías-utilizadas"&gt;&lt;img alt="TypeScript 5.9" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&amp;logo=typescript"&gt;&lt;/a&gt;
-    &lt;a href="#-tecnologías-utilizadas"&gt;&lt;img alt="Vitest 4.0" src="https://img.shields.io/badge/Vitest-4.0-729B1B?style=flat-square&amp;logo=vitest"&gt;&lt;/a&gt;
+    &lt;img alt="Angular 21" src="https://img.shields.io/badge/Angular-21.2.0-DD0031?style=for-the-badge&amp;logo=angular"&gt;
+    &lt;img alt="Angular Material" src="https://img.shields.io/badge/Angular_Material-21.2.10-009688?style=for-the-badge&amp;logo=angular"&gt;
+    &lt;img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9.2-3178C6?style=for-the-badge&amp;logo=typescript"&gt;
+    &lt;img alt="Vitest" src="https://img.shields.io/badge/Vitest-4.0.8-729B1B?style=for-the-badge&amp;logo=vitest"&gt;
   &lt;/p&gt;
 &lt;/div&gt;
 
