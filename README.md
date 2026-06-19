@@ -1,17 +1,12 @@
 
 # 🏔️ Grupo Cordillera - Frontend
 
-&lt;div align="center"&gt;
-  &lt;p&gt;
-    &lt;strong&gt;Backend empresarial basado en microservicios para la gestión integral de Grupo Cordillera.&lt;/strong&gt;
-  &lt;/p&gt;
-  &lt;p&gt;
-    &lt;img alt="Java 17" src="https://img.shields.io/badge/Java-17-007396?style=for-the-badge&amp;logo=oracle"&gt;
-    &lt;img alt="Spring Boot 4.0.6" src="https://img.shields.io/badge/Spring_Boot-4.0.6-6DB33F?style=for-the-badge&amp;logo=spring"&gt;
-    &lt;img alt="PostgreSQL 15" src="https://img.shields.io/badge/PostgreSQL-15-4169E1?style=for-the-badge&amp;logo=postgresql"&gt;
-    &lt;img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&amp;logo=docker&amp;logoColor=white"&gt;
-  &lt;/p&gt;
-&lt;/div&gt;
+> **Interfaz de usuario moderna y responsiva para la gestión integral de Grupo Cordillera.**
+
+![Angular 21](https://img.shields.io/badge/Angular-21.2.0-DD0031?style=for-the-badge&logo=angular)
+![Angular Material](https://img.shields.io/badge/Angular_Material-21.2.10-009688?style=for-the-badge&logo=angular)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-3178C6?style=for-the-badge&logo=typescript)
+![Vitest](https://img.shields.io/badge/Vitest-4.0.8-729B1B?style=for-the-badge&logo=vitest)
 
 ---
 
