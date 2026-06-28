@@ -2,13 +2,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { FinanceTransaction, FinanceTransactionRequest, FinanceSummary } from './finances.models';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FinancesService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/finanzas';
+  private readonly apiUrl = `${API_BASE_URL}/finanzas`;
 
   getTransactions(): Observable<FinanceTransaction[]> {
     return this.http

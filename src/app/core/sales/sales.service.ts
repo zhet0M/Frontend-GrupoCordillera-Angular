@@ -2,13 +2,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Sale, SaleCreateRequest } from './sales.models';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SalesService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/ventas';
+  private readonly apiUrl = `${API_BASE_URL}/ventas`;
 
   getSales(): Observable<Sale[]> {
     return this.http

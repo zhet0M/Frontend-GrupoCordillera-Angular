@@ -2,13 +2,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Product, DeductStockRequest } from './inventory.models';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InventoryService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/inventario';
+  private readonly apiUrl = `${API_BASE_URL}/inventario`;
 
   getProducts(): Observable<Product[]> {
     return this.http

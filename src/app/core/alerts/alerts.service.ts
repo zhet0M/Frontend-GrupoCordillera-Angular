@@ -3,13 +3,14 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 
 import { AlertNotification, AlertsSummaryResponse } from './alerts.models';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AlertsService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/alertas';
+  private readonly apiUrl = `${API_BASE_URL}/alertas`;
 
   getSummary(): Observable<AlertsSummaryResponse> {
     return this.http

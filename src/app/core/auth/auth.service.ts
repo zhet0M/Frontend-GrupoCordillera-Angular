@@ -3,13 +3,14 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 
 import { LoginRequest, LoginResponse, RegisterRequest, UserRole, UserSession } from './auth.models';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/auth';
+  private readonly apiUrl = `${API_BASE_URL}/auth`;
   private readonly storageKey = 'grupo-cordillera-session';
   private readonly invalidCredentialsMessage = 'Correo o contraseña incorrectos';
 
