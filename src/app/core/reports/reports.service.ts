@@ -1,13 +1,14 @@
 import { HttpClient, HttpErrorResponse, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReportsService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/reportes';
+  private readonly apiUrl = `${API_BASE_URL}/reportes`;
 
   downloadSalesReport(inicio?: string, fin?: string): Observable<HttpResponse<Blob>> {
     const params = this.buildDateParams(inicio, fin);

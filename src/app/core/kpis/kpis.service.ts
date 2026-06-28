@@ -2,13 +2,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { KpiResult, KpiType } from './kpis.models';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class KpisService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/kpis';
+  private readonly apiUrl = `${API_BASE_URL}/kpis`;
 
   getKpis(): Observable<KpiResult[]> {
     return this.http.get<KpiResult[]>(this.apiUrl).pipe(catchError(this.handleError.bind(this)));

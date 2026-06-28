@@ -4,13 +4,14 @@ import { Observable, catchError, throwError } from 'rxjs';
 
 import { UserRole } from '../auth/auth.models';
 import { ApproveUserRequest, ManagedUser } from './user-management.models';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserManagementService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/auth/admin';
+  private readonly apiUrl = `${API_BASE_URL}/auth/admin`;
 
   getUsers(): Observable<ManagedUser[]> {
     return this.http

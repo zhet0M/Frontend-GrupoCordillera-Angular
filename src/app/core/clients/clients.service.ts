@@ -2,13 +2,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Client, ClientRequest } from './clients.models';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientsService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/clientes';
+  private readonly apiUrl = `${API_BASE_URL}/clientes`;
 
   getClients(): Observable<Client[]> {
     return this.http
